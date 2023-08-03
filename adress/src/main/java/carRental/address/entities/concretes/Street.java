@@ -1,6 +1,6 @@
 package carRental.address.entities.concretes;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -19,14 +19,15 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name="street")
+@Builder
+@Jacksonized
+@NoArgsConstructor
+@AllArgsConstructor
 public class Street {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	@Column(name="id")
 	private int streetId;
 	
@@ -37,7 +38,7 @@ public class Street {
     @JoinColumn(name = "city_id")
     private City city;
 
-    @OneToMany()
-	@JoinColumn(name = "buildingNo_id")
-    private List<BuildingNumber> buildingNumbers;
+    //@OneToMany()
+	//@JoinColumn(name = "buildingNo_id")
+    //private List<BuildingNumber> buildingNumbers;
 }

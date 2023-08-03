@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,10 +25,12 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name="city")
+@Builder
+@Jacksonized
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class City {
 	@Id
@@ -45,7 +49,9 @@ public class City {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany
-    @JoinColumn(name="street_id")
-    private List<Street> streets;
+    //@OneToMany()
+    //@JoinColumn(name="street_id")
+    //private List<Street> streets;
+
+
 }

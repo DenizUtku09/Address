@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name="building_no")
+@Builder
+@Jacksonized
+@NoArgsConstructor
+@AllArgsConstructor
 public class BuildingNumber {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
