@@ -36,16 +36,15 @@ public class CountryManager implements CountryService {
 
 	@Override
 	public Country updateCountryByName(String countryName,Country country) {
-		Optional<Country> existingCountry=countryDao.findCountryByCountryName(countryName);
-		if(existingCountry.isPresent()){
-
-			Country updatedCountry=countryDao.save(country);
-			return updatedCountry;
-
-
-		}
-		else{
+		Country existingCountry = countryDao.findCountryByCountryName(countryName);
+		if (existingCountry==null) {
 			throw new RuntimeException("This country name does not exist.");
+
+
+		} else {
+			existingCountry.setCountryName(country.getCountryName());
+			Country updatedCountry=countryDao.save(existingCountry);
+			return updatedCountry;
 		}
 	}
 
@@ -60,7 +59,7 @@ public class CountryManager implements CountryService {
 
 		}
 		else{
-			throw new RuntimeException("This country name does not exist.");
+			throw new RuntimeException("This country ID does not exist.");
 		}
 	}
 
@@ -68,12 +67,12 @@ public class CountryManager implements CountryService {
 	@Override
 	public void deleteCountryByName(String countryName) {
 
-		Optional<Country> existingCountry=countryDao.findCountryByCountryName(countryName);
-		if(existingCountry.isEmpty()){
+		Country existingCountry=countryDao.findCountryByCountryName(countryName);
+		if(existingCountry==null){
 			throw new RuntimeException("This country already does not exist");
 		}
 		else{
-			countryDao.delete(existingCountry.get());
+			countryDao.delete(existingCountry);
 		}
 		
 		
@@ -94,16 +93,18 @@ public class CountryManager implements CountryService {
 	
 	@Override
 	public City addCityToCountryByName(String countryName, City city) {
-		Optional<Country> existingCountry=countryDao.findCountryByCountryName(countryName);
+		Country existingCountry=countryDao.findCountryByCountryName(countryName);
 
-		if(existingCountry.isPresent()) {
-			City addedCity=cityDao.save(city);
-			return addedCity;
+		if(existingCountry==null) {
+
+			throw new RuntimeException("This country is not found");
+
 			
 			
 		}
 		else {
-			throw new RuntimeException("This country is not found");
+			City addedCity=cityDao.save(city);
+			return addedCity;
 			
 		}
 	}
@@ -153,9 +154,9 @@ public class CountryManager implements CountryService {
 
 	@Override
 	public City updateCitiesInCountryByName(String countryName, City city) {
-		Optional<Country> existingCountry=countryDao.findCountryByCountryName(countryName);
+		Country existingCountry=countryDao.findCountryByCountryName(countryName);
 		Optional<City> existingCity=cityDao.findCityByCityIdOrCityName(city.getCityId(),city.getCityName());
-		if(existingCountry.isPresent() && existingCity.isPresent()) {
+		if(existingCountry!=null && existingCity.isPresent()) {
 
 			City updatedCity=cityDao.save(city);
 			return updatedCity;
@@ -164,14 +165,14 @@ public class CountryManager implements CountryService {
 
 
 		}
-		else if(existingCountry.isEmpty()){
+		else if(existingCountry==null){
 			throw new RuntimeException("This country is not found");
 
 		}
 		else if(existingCity.isEmpty()) {
 			throw new RuntimeException("This city is not found");
 		}
-		else if(existingCountry.isEmpty() && existingCity.isEmpty()) {
+		else if(existingCountry==null && existingCity.isEmpty()) {
 			throw new RuntimeException("This city and country is not found");
 		}
 		return null;
@@ -180,10 +181,10 @@ public class CountryManager implements CountryService {
 
 	@Override
 	public void deleteCityInCountryByName(String countryName, City city) {
-		Optional<Country> existingCountry=countryDao.findCountryByCountryName(countryName);
+		Country existingCountry=countryDao.findCountryByCountryName(countryName);
 		Optional<City> existingCity=cityDao.findCityByCityIdOrCityName(city.getCityId(),city.getCityName());
 
-		if(existingCountry.isPresent() && existingCity.isPresent()) {
+		if(existingCountry!=null && existingCity.isPresent()) {
 
 			cityDao.delete(existingCity.get());
 
@@ -193,14 +194,14 @@ public class CountryManager implements CountryService {
 
 
 		}
-		else if(existingCountry.isEmpty()){
+		else if(existingCountry==null){
 			throw new RuntimeException("This country is not found");
 
 		}
 		else if(existingCity.isEmpty()) {
 			throw new RuntimeException("This city is not found");
 		}
-		else if(existingCountry.isEmpty() && existingCity.isEmpty()) {
+		else if(existingCountry==null && existingCity.isEmpty()) {
 			throw new RuntimeException("This city and country is not found");
 		}
 
@@ -246,8 +247,8 @@ public class CountryManager implements CountryService {
 
 
 	@Override
-	public Optional<Country> findCountryByName(String countryName) {
-		// TODO Auto-generated method stub
+	public Country findCountryByName(String countryName) {
+
 		return countryDao.findCountryByCountryName(countryName);
 	}
 
@@ -273,7 +274,7 @@ public class CountryManager implements CountryService {
 	}
 
 	@Override
-	public Optional<Country> findCountryByCountryName(String countryName) {
+	public  Country findCountryByCountryName(String countryName) {
 		return countryDao.findCountryByCountryName(countryName);
 	}
 

@@ -32,7 +32,7 @@ public class CountryController {
 		
 	}
 	@GetMapping("/FindCountryByName/{countryName}")
-	public Optional<Country> findCountryByName(@PathVariable String countryName){
+	public Country findCountryByName(@PathVariable String countryName){
 		return countryService.findCountryByCountryName(countryName);
 		
 	}
@@ -57,7 +57,7 @@ public class CountryController {
 		
 	}
 	@PutMapping("/UpdateCountryByName/{countryName}")
-	public Country updateCountryByName(@PathVariable String countryName,Country country){
+	public Country updateCountryByName(@PathVariable String countryName,@RequestBody Country country){
 		return countryService.updateCountryByName(countryName,country);
 
 	}
@@ -87,7 +87,7 @@ public class CountryController {
 		countryService.deleteCountryByName(countryName);
 	}
 	@DeleteMapping("/DeleteCityInCountryByName/{countryName}")
-	public void DeleteCityInCountryByName(@PathVariable String countryName,City city){
+	public void DeleteCityInCountryByName(@PathVariable String countryName,@RequestBody City city){
 		countryService.deleteCityInCountryByName(countryName,city);
 	}
 

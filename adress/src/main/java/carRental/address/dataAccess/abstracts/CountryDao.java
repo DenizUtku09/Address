@@ -11,7 +11,7 @@ public interface CountryDao extends JpaRepository<Country,Integer> {
 	
 	Optional<Country> findCountryByCountryId(int countryId);
 
-	Optional<Country> findCountryByCountryName(String countryName);
+	Country findCountryByCountryName(String countryName);
 
 	void deleteCountryByCountryName(String countryName);
 

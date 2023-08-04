@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import carRental.address.entities.concretes.City;
 import carRental.address.entities.concretes.Country;
-import org.springframework.http.ResponseEntity;
 
 
 public interface CountryService {
@@ -27,14 +26,14 @@ public interface CountryService {
 	List<Country> getAllCountries();
 
 
-	Optional<Country> findCountryByName(String countryName);
+	Country findCountryByName(String countryName);
 
 	List<City> getCitiesInCountryByName(String countryName);
 	List<City> getCitiesInCountryById(int countryId);
 
 	Optional<Country> findCountryByCountryId(int countryId);
 
-	Optional<Country> findCountryByCountryName(String countryName);
+	Country findCountryByCountryName(String countryName);
 
 
 

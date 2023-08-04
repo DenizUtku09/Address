@@ -31,8 +31,7 @@ public class Country {
 	private String countryName;
 	
 
-    //@OneToMany(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "city_id")
-    //private List<City> cities=new ArrayList<>();
+    @OneToMany(mappedBy = "country",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<City> cities=new ArrayList<>();
  
 }
