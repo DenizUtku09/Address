@@ -1,6 +1,5 @@
 package carRental.address.dataAccess.abstracts;
 
-import carRental.address.entities.concretes.dtos.CountryDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import carRental.address.entities.concretes.Country;

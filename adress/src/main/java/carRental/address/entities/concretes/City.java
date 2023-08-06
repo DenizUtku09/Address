@@ -3,6 +3,7 @@ package carRental.address.entities.concretes;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -38,7 +39,8 @@ public class City {
 	private String cityName;
 
 
-    @ManyToOne()
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     @OnDelete(action= OnDeleteAction.CASCADE)
     private Country country;

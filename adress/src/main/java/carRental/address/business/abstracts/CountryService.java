@@ -12,16 +12,16 @@ import carRental.address.entities.concretes.dtos.requests.*;
 
 public interface CountryService {
 	CountryDTO addCountry(AddCountryRequest addCountryRequest, CountryDTO countryDTO);
-	void updateCountryByName(String countryName,CountryUpdateRequest updateRequest);
-	void updateCountryById(int countryId, CountryUpdateRequest updateRequest);
-	void deleteCountryByName(String countryName);
-	void deleteCountryById(int countryId);
+	void updateCountryByName(String countryName,CountryUpdateRequest updateRequest,CountryDTO countryDTO);
+	void updateCountryById(int countryId, CountryUpdateRequest updateRequest,CountryDTO countryDTO);
+	void deleteCountryByName(DeleteCountryByNameRequest deleteCountryByNameRequest);
+	void deleteCountryById(DeleteCountryByIdRequest deleteCountryByIdRequest);
 	CityDTO addCityToCountryByName(String countryName,CityDTO cityDTO, AddCityToCountryRequest addCityToCountryRequest);
 	CityDTO addCityToCountryById(int countryId,CityDTO cityDTO,AddCityToCountryRequest addCityToCountryRequest);
 
 
 
-	CityDTO updateCitiesInCountryById(int countryId, City city, UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO);
+	CityDTO updateCitiesInCountryById(int countryId,String cityName, UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO);
 	CityDTO updateCitiesInCountryByName(String countryName,UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO,String cityName);
 
 	void deleteCityInCountryByName(String countryName, City city, DeleteCityInCountryRequest deleteCityInCountryRequest,CityDTO cityDTO);
@@ -35,8 +35,8 @@ public interface CountryService {
 	Optional<CountryDTO> getCountryByName(int countryName);
 
 
-	List<CountryDTO> getCitiesInCountryByName(String countryName);
-	Optional<City> getCitiesInCountryById(int countryId);
+	List<City> getCitiesInCountryByName(String countryName);
+	List<City> getCitiesInCountryById(int countryId);
 
 
 

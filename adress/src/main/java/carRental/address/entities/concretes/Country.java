@@ -3,6 +3,7 @@ package carRental.address.entities.concretes;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,7 +29,8 @@ public class Country {
 	private String countryName;
 	
 
-    @OneToMany(mappedBy = "country")
+	@JsonManagedReference
+    @OneToMany(mappedBy = "country",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<City> cities=new ArrayList<>();
 
 }
