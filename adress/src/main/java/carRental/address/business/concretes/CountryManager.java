@@ -232,25 +232,25 @@ public class CountryManager implements CountryService {
 	}
 
 	@Override
-	public void deleteCityInCountryByName(String countryName, City city,DeleteCityInCountryRequest deleteCityInCountryRequest,CityDTO cityDTO) {
+	public void deleteCityInCountryByName(String countryName,DeleteCityInCountryRequest deleteCityInCountryRequest) {
 		Country country=countryDao.findCountryByCountryName(countryName)
 				.orElseThrow(()->new RuntimeException("This country does not exist."));
-		City existingCity=cityDao.findCityByCityIdOrCityName(city.getCityId(),city.getCityName())
+		City existingCity=cityDao.findCityByCityIdOrCityName(deleteCityInCountryRequest.cityId(), deleteCityInCountryRequest.cityName())
 				.orElseThrow(()->new RuntimeException("This city does not exist."));
 
-		cityDao.deleteCityByCityNameOrCityId(city.getCityName(),city.getCityId());
+		cityDao.deleteCityByCityNameOrCityId(deleteCityInCountryRequest.cityName(), deleteCityInCountryRequest.cityId());
 
 
 	}
 
 	@Override
-	public void deleteCityInCountryById(int countryId, City city, DeleteCityInCountryRequest deleteCityInCountryRequest,CityDTO cityDTO) {
+	public void deleteCityInCountryById(int countryId, DeleteCityInCountryRequest deleteCityInCountryRequest) {
 		Country country=countryDao.findCountryByCountryId(countryId)
 				.orElseThrow(()->new RuntimeException("This country does not exist."));
-		City existingCity=cityDao.findCityByCityIdOrCityName(city.getCityId(),city.getCityName())
+		City existingCity=cityDao.findCityByCityIdOrCityName(deleteCityInCountryRequest.cityId(), deleteCityInCountryRequest.cityName())
 				.orElseThrow(()->new RuntimeException("This city does not exist."));
 
-		cityDao.deleteCityByCityNameOrCityId(city.getCityName(),city.getCityId());
+		cityDao.deleteCityByCityNameOrCityId(deleteCityInCountryRequest.cityName(), deleteCityInCountryRequest.cityId());
 
 
 	}
@@ -283,8 +283,9 @@ public class CountryManager implements CountryService {
 	}
 
 	@Override
-	public Optional<CountryDTO> getCountryByName(int countryName) {
-		return null;
+	public Optional<Country> getCountryByName(String countryName) {
+
+		return countryDao.findCountryByCountryName(countryName);
 	}
 
 	@Override

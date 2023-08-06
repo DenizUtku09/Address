@@ -1,9 +1,10 @@
 package carRental.address.api.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
-import carRental.address.business.abstracts.CityService;
-import carRental.address.dataAccess.abstracts.CityDao;
+
+import carRental.address.entities.concretes.Country;
 import carRental.address.entities.concretes.dtos.CityDTO;
 import carRental.address.entities.concretes.dtos.CountryDTO;
 import carRental.address.entities.concretes.dtos.requests.*;
@@ -14,20 +15,17 @@ import org.springframework.web.bind.annotation.*;
 import carRental.address.business.abstracts.CountryService;
 import carRental.address.entities.concretes.City;
 
+
+
 @RestController
 @RequestMapping("/api/Country")
-
 public class CountryController {
 	private final CountryService countryService;
-	private final CityDao cityDao;
-	private final CityService cityService;
-	
 	@Autowired
-	public CountryController(CountryService countryService,CityDao cityDao,CityService cityService) {
+	public CountryController(CountryService countryService) {
 		super();
 		this.countryService=countryService;
-		this.cityService=cityService;
-		this.cityDao=cityDao;
+
 
 
 	}
@@ -37,6 +35,15 @@ public class CountryController {
 		return countryService.getAllCountries();
 		
 		
+	}
+	@GetMapping("/getCountryByName/{countryName}")
+	public Optional<Country> getCountryByName(String countryName){
+		return countryService.getCountryByName(countryName);
+	}
+
+	@GetMapping("/getCountryById/{countryId}")
+	public Optional<Country> getCountryById(int countryId){
+		return countryService.getCountryById(countryId);
 	}
 
 
@@ -59,6 +66,16 @@ public class CountryController {
 		CountryDTO addedCountry=countryService.addCountry(addCountryRequest,countryDTO);
 		return ResponseEntity.ok(addedCountry);
 		
+	}
+	@PostMapping("/AddCitiesToCountryById/{countryId}")
+	public ResponseEntity<CityDTO> addCityToCountryById(@PathVariable int countryId,CityDTO cityDTO,@RequestBody AddCityToCountryRequest addCityToCountryRequest){
+		CityDTO addedCity=countryService.addCityToCountryById(countryId,cityDTO,addCityToCountryRequest);
+		return ResponseEntity.ok(addedCity);
+	}
+	@PostMapping("/AddCitiesToCountryByName/{countryName}")
+	public ResponseEntity<CityDTO> addCityToCountryByName(@PathVariable String countryName,CityDTO cityDTO,@RequestBody AddCityToCountryRequest addCityToCountryRequest){
+		CityDTO addedCity=countryService.addCityToCountryByName(countryName,cityDTO,addCityToCountryRequest);
+		return ResponseEntity.ok(addedCity);
 	}
 	@PutMapping("/UpdateCountryByName/{countryName}")
 	@ResponseBody
@@ -92,15 +109,16 @@ public class CountryController {
 	public void DeleteCountryByName(@RequestBody DeleteCountryByNameRequest deleteCountryByNameRequest){
 		countryService.deleteCountryByName(deleteCountryByNameRequest);
 	}
-/*	@DeleteMapping("/DeleteCityInCountryByName/{countryName}")
-	public void DeleteCityInCountryByName(@PathVariable String countryName,@RequestBody City city){
-		countryService.deleteCityInCountryByName(countryName,city);
+	@DeleteMapping("/DeleteCityInCountryByName/{countryName}")
+	public void DeleteCityInCountryByName(@PathVariable String countryName,@RequestBody DeleteCityInCountryRequest deleteCityInCountryRequest){
+		countryService.deleteCityInCountryByName(countryName,deleteCityInCountryRequest);
 	}
 
 	@DeleteMapping("/DeleteCityInCountryById/{countryId}")
-	public void DeleteCityInCountryById(@PathVariable int countryId,City city){
-		countryService.deleteCityInCountryById(countryId,city);
-	}*/
+	public void DeleteCityInCountryById(@PathVariable int countryId,@RequestBody DeleteCityInCountryRequest deleteCityInCountryRequest){
+		countryService.deleteCityInCountryById(countryId,deleteCityInCountryRequest);
+	}
+
 
 
 

@@ -24,15 +24,15 @@ public interface CountryService {
 	CityDTO updateCitiesInCountryById(int countryId,String cityName, UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO);
 	CityDTO updateCitiesInCountryByName(String countryName,UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO,String cityName);
 
-	void deleteCityInCountryByName(String countryName, City city, DeleteCityInCountryRequest deleteCityInCountryRequest,CityDTO cityDTO);
-	void deleteCityInCountryById(int countryId,City city,DeleteCityInCountryRequest deleteCityInCountryRequest,CityDTO cityDTO);
+	void deleteCityInCountryByName(String countryName, DeleteCityInCountryRequest deleteCityInCountryRequest);
+	void deleteCityInCountryById(int countryId,DeleteCityInCountryRequest deleteCityInCountryRequest);
 
 
 	List<CountryDTO> getAllCountries();
 
 
 	Optional<Country> getCountryById(int countryId);
-	Optional<CountryDTO> getCountryByName(int countryName);
+	Optional<Country> getCountryByName(String countryName);
 
 
 	List<City> getCitiesInCountryByName(String countryName);

@@ -30,7 +30,7 @@ public class Country {
 	
 
 	@JsonManagedReference
-    @OneToMany(mappedBy = "country",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "country",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<City> cities=new ArrayList<>();
 
 }

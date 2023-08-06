@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,16 +41,17 @@ public class City {
 
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "country_id")
-    @OnDelete(action= OnDeleteAction.CASCADE)
     private Country country;
 
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="street_id")
-    private List<Street> streets;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "city",cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Street> streets=new ArrayList<>();
+
 
 
 }

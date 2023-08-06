@@ -1,12 +1,14 @@
 package carRental.address.entities.concretes.dtos;
 
+
 import carRental.address.entities.concretes.Country;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Entity;
+import lombok.*;
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+
 
 
 @Data
@@ -24,6 +26,4 @@ public class CityDTO {
     public <R> CityDTO(String cityName, int cityId, Country country, R collect) {
     }
 
-    public CityDTO(String cityName, int cityId, Country country, List<String> collect) {
-    }
 }
