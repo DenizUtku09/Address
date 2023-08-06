@@ -38,16 +38,16 @@ public class City {
 	private String cityName;
 
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "country_id")
     @OnDelete(action= OnDeleteAction.CASCADE)
     private Country country;
 
 
 
-    //@OneToMany(cascade = CascadeType.ALL)
-    //@JoinColumn(name="street_id")
-    //private List<Street> streets;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="street_id")
+    private List<Street> streets;
 
 
 }

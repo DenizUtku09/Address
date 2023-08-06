@@ -5,35 +5,40 @@ import java.util.Optional;
 
 import carRental.address.entities.concretes.City;
 import carRental.address.entities.concretes.Country;
+import carRental.address.entities.concretes.dtos.CityDTO;
+import carRental.address.entities.concretes.dtos.CountryDTO;
+import carRental.address.entities.concretes.dtos.requests.*;
 
 
 public interface CountryService {
-	Country addCountry(Country country);
-	Country updateCountryByName(String countryName,Country country);
-	Country updateCountryById(int countryId,Country country);
+	CountryDTO addCountry(AddCountryRequest addCountryRequest, CountryDTO countryDTO);
+	void updateCountryByName(String countryName,CountryUpdateRequest updateRequest);
+	void updateCountryById(int countryId, CountryUpdateRequest updateRequest);
 	void deleteCountryByName(String countryName);
 	void deleteCountryById(int countryId);
-	City addCityToCountryByName(String countryName,City city);
-	City addCityToCountryById(int countryId, City city);
-
-	City updateCitiesInCountryById(int countryId, City city);
-	City updateCitiesInCountryByName(String countryName,City city);
-
-	void deleteCityInCountryByName(String countryName,City city);
-	void deleteCityInCountryById(int countryId,City city);
+	CityDTO addCityToCountryByName(String countryName,CityDTO cityDTO, AddCityToCountryRequest addCityToCountryRequest);
+	CityDTO addCityToCountryById(int countryId,CityDTO cityDTO,AddCityToCountryRequest addCityToCountryRequest);
 
 
-	List<Country> getAllCountries();
+
+	CityDTO updateCitiesInCountryById(int countryId, City city, UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO);
+	CityDTO updateCitiesInCountryByName(String countryName,UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO,String cityName);
+
+	void deleteCityInCountryByName(String countryName, City city, DeleteCityInCountryRequest deleteCityInCountryRequest,CityDTO cityDTO);
+	void deleteCityInCountryById(int countryId,City city,DeleteCityInCountryRequest deleteCityInCountryRequest,CityDTO cityDTO);
 
 
-	Country findCountryByName(String countryName);
+	List<CountryDTO> getAllCountries();
 
-	List<City> getCitiesInCountryByName(String countryName);
-	List<City> getCitiesInCountryById(int countryId);
 
-	Optional<Country> findCountryByCountryId(int countryId);
+	Optional<Country> getCountryById(int countryId);
+	Optional<CountryDTO> getCountryByName(int countryName);
 
-	Country findCountryByCountryName(String countryName);
+
+	List<CountryDTO> getCitiesInCountryByName(String countryName);
+	Optional<City> getCitiesInCountryById(int countryId);
+
+
 
 
 

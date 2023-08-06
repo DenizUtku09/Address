@@ -3,6 +3,11 @@ package carRental.address.api.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import carRental.address.entities.concretes.dtos.CityDTO;
+import carRental.address.entities.concretes.dtos.CountryDTO;
+import carRental.address.entities.concretes.dtos.requests.AddCountryRequest;
+import carRental.address.entities.concretes.dtos.requests.CountryUpdateRequest;
+import carRental.address.entities.concretes.dtos.requests.UpdateCityInCountryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +20,7 @@ import carRental.address.entities.concretes.Country;
 @RequestMapping("/api/Country")
 
 public class CountryController {
-	private CountryService countryService;
+	private final CountryService countryService;
 	
 	@Autowired
 	public CountryController(CountryService countryService) {
@@ -26,58 +31,53 @@ public class CountryController {
 	}
 	
 	@GetMapping("/getAll")
-	public List<Country>  getAllCountries() {
+	public List<CountryDTO>  getAllCountries() {
 		return countryService.getAllCountries();
 		
 		
 	}
-	@GetMapping("/FindCountryByName/{countryName}")
-	public Country findCountryByName(@PathVariable String countryName){
-		return countryService.findCountryByCountryName(countryName);
+
+
+	//@GetMapping("/GetCitiesInCountryByName/{countryName}")
+	//public List<City> getCitiesInCountryByName(@PathVariable String countryName){
+		//return countryService.getCitiesInCountryByName(countryName);
 		
-	}
-	@GetMapping("/GetCitiesInCountryByName/{countryName}")
-	public List<City> getCitiesInCountryByName(@PathVariable String countryName){
-		return countryService.getCitiesInCountryByName(countryName);
-		
-	}
+	//}
 	@GetMapping("/GetCitiesInCountryById/{countryId}")
-	public List<City> getCitiesInCountryById(@PathVariable int countryId){
+	public Optional<City> getCitiesInCountryById(@PathVariable int countryId){
 		return countryService.getCitiesInCountryById(countryId);
 	}
 	
-	@GetMapping("/FindCountryById/{id}")
-	public Optional<Country> findCountryById(@PathVariable int id){
-		return countryService.findCountryByCountryId(id);
-	}
+
 	
 	@PostMapping("/AddCountry")
-	public Country addCountry(@RequestBody Country country) {
-		return countryService.addCountry(country);
+	public ResponseEntity<CountryDTO> addCountry(@RequestBody AddCountryRequest addCountryRequest,CountryDTO countryDTO) {
+		CountryDTO addedCountry=countryService.addCountry(addCountryRequest,countryDTO);
+		return ResponseEntity.ok(addedCountry);
 		
 	}
 	@PutMapping("/UpdateCountryByName/{countryName}")
-	public Country updateCountryByName(@PathVariable String countryName,@RequestBody Country country){
-		return countryService.updateCountryByName(countryName,country);
+	public void updateCountryByName(@PathVariable String countryName,@RequestBody CountryUpdateRequest updateRequest){
+		countryService.updateCountryByName(countryName, updateRequest);
 
 	}
-	@PutMapping("/updateCountryById/{countryId}")
-	public Country updateCountryById(@PathVariable int countryId,Country country){
-		return countryService.updateCountryById(countryId,country);
+	/*@PutMapping("/updateCountryById/{countryId}")
+	public void updateCountryById(@PathVariable int countryId, CountryUpdateRequest updateRequest){
+		countryService.updateCountryById(countryId,updateRequest);
 	}
 	@PutMapping("/UpdateCitiesInCountryById/{countryId}")
-	public City updateCitiesInCountryById(@PathVariable int countryId,City city){
+	public CountryDTO updateCitiesInCountryById(@PathVariable int countryId,City city){
 		return countryService.updateCitiesInCountryById(countryId,city);
+*/
+
+	@PutMapping("/UpdateCitiesInCountryByName/{countryName}/city/{cityName}")
+	public CityDTO updateCitiesInCountryByName(@PathVariable String countryName, @RequestBody UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO,@PathVariable String cityName){
+		return countryService.updateCitiesInCountryByName(countryName,updateCityInCountryRequest,cityDTO,cityName);
 
 	}
-	@PutMapping("/UpdateCitiesInCountryByName/{countryName}")
-	public City updateCitiesInCountryByName(@PathVariable String countryName,City city){
-		return countryService.updateCitiesInCountryByName(countryName,city);
-
-	}
 
 
-	@DeleteMapping("/DeleteCountryById/{countryId}")
+/*	@DeleteMapping("/DeleteCountryById/{countryId}")
 	public void deleteCountryById(int countryId){
 		countryService.deleteCountryById(countryId);
 	}
@@ -94,7 +94,7 @@ public class CountryController {
 	@DeleteMapping("/DeleteCityInCountryById/{countryId}")
 	public void DeleteCityInCountryById(@PathVariable int countryId,City city){
 		countryService.deleteCityInCountryById(countryId,city);
-	}
+	}*/
 
 
 

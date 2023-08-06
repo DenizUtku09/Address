@@ -15,8 +15,8 @@ public interface CityDao extends JpaRepository<City, Integer>{
 
 	Optional<City> findCityByCityId(int cityId);
 
-	List<City> findCitiesByCountryCountryName(String countryName);
-	List<City> findCitiesByCountryCountryId(int countryId);
+	Optional<City> findCitiesByCountryCountryName(String countryName);
+	Optional<City> findCitiesByCountryCountryId(int countryId);
 	Optional<City> findCityByCityIdOrCityName(int cityId, String cityName);
 	Optional<City> findCityByCityName(String cityName);
 
