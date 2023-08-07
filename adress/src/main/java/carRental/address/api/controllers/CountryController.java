@@ -7,7 +7,7 @@ import java.util.Optional;
 import carRental.address.entities.concretes.Country;
 import carRental.address.entities.concretes.dtos.CityDTO;
 import carRental.address.entities.concretes.dtos.CountryDTO;
-import carRental.address.entities.concretes.dtos.requests.*;
+import carRental.address.entities.concretes.dtos.requests.country.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,12 +37,12 @@ public class CountryController {
 		
 	}
 	@GetMapping("/getCountryByName/{countryName}")
-	public Optional<Country> getCountryByName(String countryName){
+	public Optional<Country> getCountryByName(@PathVariable String countryName){
 		return countryService.getCountryByName(countryName);
 	}
 
 	@GetMapping("/getCountryById/{countryId}")
-	public Optional<Country> getCountryById(int countryId){
+	public Optional<Country> getCountryById(@PathVariable int countryId){
 		return countryService.getCountryById(countryId);
 	}
 
@@ -79,7 +79,7 @@ public class CountryController {
 	}
 	@PutMapping("/UpdateCountryByName/{countryName}")
 	@ResponseBody
-	public void updateCountryByName(@PathVariable String countryName,@RequestBody CountryUpdateRequest updateRequest,CountryDTO countryDTO){
+	public void updateCountryByName(@PathVariable String countryName, @RequestBody CountryUpdateRequest updateRequest, CountryDTO countryDTO){
 		countryService.updateCountryByName(countryName, updateRequest,countryDTO);
 
 	}
@@ -88,7 +88,7 @@ public class CountryController {
 		countryService.updateCountryById(countryId,updateRequest,countryDTO);
 	}
     @PutMapping("/UpdateCitiesInCountryById/{countryId}/city/{cityName}")
-	public CityDTO updateCitiesInCountryById(@PathVariable int countryId,@PathVariable String cityName,@RequestBody UpdateCityInCountryRequest updateCityInCountryRequest, CityDTO cityDTO) {
+	public CityDTO updateCitiesInCountryById(@PathVariable int countryId, @PathVariable String cityName, @RequestBody UpdateCityInCountryRequest updateCityInCountryRequest, CityDTO cityDTO) {
 		return countryService.updateCitiesInCountryById(countryId,cityName,updateCityInCountryRequest,cityDTO);
 	}
 

@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/api/Street")
 public class StreetController {
 
-    private StreetService streetService;
+    private final StreetService streetService;
     @Autowired
     public StreetController(StreetService streetService){
         super();

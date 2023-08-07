@@ -2,9 +2,10 @@ package carRental.address.entities.concretes.dtos;
 
 
 import carRental.address.entities.concretes.Country;
-import jakarta.persistence.Entity;
+
+import carRental.address.entities.concretes.Street;
 import lombok.*;
-import org.springframework.stereotype.Service;
+
 
 
 import java.util.List;
@@ -18,12 +19,10 @@ import java.util.List;
 public class CityDTO {
     private String cityName;
     private int cityId;
-    private String countryName;
-    private int countryId;
+
+    private Country country;
     private List<String> streets;
 
 
-    public <R> CityDTO(String cityName, int cityId, Country country, R collect) {
-    }
 
 }

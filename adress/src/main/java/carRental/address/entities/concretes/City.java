@@ -40,7 +40,7 @@ public class City {
 	private String cityName;
 
 
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;

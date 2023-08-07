@@ -18,6 +18,10 @@ public interface StreetDao extends JpaRepository<Street,Integer> {
     Optional<Street> findStreetByStreetIdOrStreetName(int streetId, String streetName);
 
     void deleteStreetByStreetIdOrStreetName(int streetId,String streetName);
+    Street findStreetByStreetName(String streetName);
+
+    Street findStreetByStreetId(int streetId);
+
 
 
 

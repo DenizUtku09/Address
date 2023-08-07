@@ -10,13 +10,14 @@ import carRental.address.entities.concretes.City;
 public interface CityDao extends JpaRepository<City, Integer>{
 
 
-	Optional<City> findCityByCityId(int cityId);
+	City findCityByCityId(int cityId);
 
 	Optional<CityDTO> findCitiesByCountryCountryName(String countryName);
 	Optional<City> findCitiesByCountryCountryId (int countryId);
 
 	Optional<City> findCityByCityIdOrCityName(int cityId, String cityName);
-	Optional<City> findCityByCityName(String cityName);
+	City findCityByCityName(String cityName);
+
 
 
 

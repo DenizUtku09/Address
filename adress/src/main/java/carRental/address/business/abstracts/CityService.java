@@ -2,29 +2,35 @@ package carRental.address.business.abstracts;
 
 import carRental.address.entities.concretes.City;
 import carRental.address.entities.concretes.Street;
+import carRental.address.entities.concretes.dtos.CityDTO;
+import carRental.address.entities.concretes.dtos.StreetDTO;
+import carRental.address.entities.concretes.dtos.requests.city.*;
+import carRental.address.entities.concretes.dtos.requests.street.AddStreetRequest;
+import carRental.address.entities.concretes.dtos.requests.street.DeleteStreetByIdRequest;
+import carRental.address.entities.concretes.dtos.requests.street.DeleteStreetByNameRequest;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CityService {
 
-    City addCity(City city);
+    CityDTO addCity(AddCityRequest addCityRequest);
 
-    City updateCityByName(String cityName,City city);
-    City updateCityById(int cityId,City city);
+    void updateCityByName(String cityName, UpdateCityRequest updateCityRequest);
+    void updateCityById(int cityId,UpdateCityRequest updateCityRequest);
 
-    void deleteCityByName(String cityName);
-    void deleteCityById(int cityId);
+    void deleteCityByName(DeleteCityByNameRequest deleteCityByNameRequest);
+    void deleteCityById(DeleteCityByIdRequest deleteCityByIdRequest);
 
-    Street addStreetToCityById(int cityId, Street street);
-    Street addStreetToCityByName(String cityName,Street street);
-    Street updateStreetInCityByName(String cityName, Street street);
-    Street updateStreetInCityById(int cityId,Street street);
-    void deleteStreetInCityByName(String cityName,Street street);
-    void deleteStreetInCityById(int cityId,Street street);
+    StreetDTO addStreetToCityById(int cityId,AddStreetRequest addStreetRequest);
+    StreetDTO addStreetToCityByName(String cityName,AddStreetRequest addStreetRequest);
+    StreetDTO updateStreetInCityByName(String cityName,String streetName,AddStreetRequest addStreetRequest);
+    StreetDTO updateStreetInCityById(int cityId,int streetId,AddStreetRequest addStreetRequest);
+    void deleteStreetInCityByName(String cityName, DeleteStreetByNameRequest deleteStreetByNameRequest);
+    void deleteStreetInCityById(int cityId, DeleteStreetByIdRequest deleteStreetByIdRequest);
 
-    Optional<City> getCityByCityName(String cityName);
-    Optional<City> getCityById(int cityId);
+    City getCityByCityName(String cityName);
+    City getCityById(int cityId);
 
     List<Street> getStreetsInCityByName(String cityName);
     List<Street> getStreetsInCityById(int cityId);

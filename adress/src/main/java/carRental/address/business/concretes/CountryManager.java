@@ -8,7 +8,7 @@ import carRental.address.entities.concretes.dtos.CityDTO;
 import carRental.address.entities.concretes.dtos.CountryDTO;
 import carRental.address.entities.concretes.dtos.mappers.CityDTOMapper;
 import carRental.address.entities.concretes.dtos.mappers.CountryDTOMapper;
-import carRental.address.entities.concretes.dtos.requests.*;
+import carRental.address.entities.concretes.dtos.requests.country.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +62,7 @@ public class CountryManager implements CountryService {
 	}
 
 	@Override
-	public void updateCountryByName(String countryName,CountryUpdateRequest updateRequest,CountryDTO countryDTO) {
+	public void updateCountryByName(String countryName, CountryUpdateRequest updateRequest, CountryDTO countryDTO) {
 		Country country=countryDao.findCountryByCountryName(countryName)
 				.orElseThrow(() ->new RuntimeException("Country with this name is not found")
 				);
@@ -134,6 +134,7 @@ public class CountryManager implements CountryService {
 
 
 
+
 	
 	
 	@Override
@@ -150,7 +151,7 @@ public class CountryManager implements CountryService {
 
 		CityDTO addedCityDTO=new CityDTO();
 		addedCityDTO.setCityName(city.getCityName());
-		addedCityDTO.setCountryId(city.getCountry().getCountryId());
+		addedCityDTO.setCountry(country);
 
 		return addedCityDTO;
 
@@ -174,7 +175,7 @@ public class CountryManager implements CountryService {
 
 		CityDTO addedCityDTO=new CityDTO();
 		addedCityDTO.setCityName(city.getCityName());
-		addedCityDTO.setCountryId(city.getCountry().getCountryId());
+		addedCityDTO.setCountry(country);
 
 		return addedCityDTO;
 
@@ -188,12 +189,11 @@ public class CountryManager implements CountryService {
 
 
 	@Override
-	public CityDTO updateCitiesInCountryById(int countryId,String cityName,UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO) {
+	public CityDTO updateCitiesInCountryById(int countryId, String cityName, UpdateCityInCountryRequest updateCityInCountryRequest, CityDTO cityDTO) {
 		Country country=countryDao.findCountryByCountryId(countryId)
 				.orElseThrow(()-> new RuntimeException("This country by Id does not exist."));
 
-		City cityToUpdate=cityDao.findCityByCityName(cityName)
-				.orElseThrow(()->new RuntimeException("This city does not exist."));
+		City cityToUpdate=cityDao.findCityByCityName(cityName);
 
 		if(!cityToUpdate.getCountry().equals(country)){
 			throw new IllegalStateException("City is not in the specified country");
@@ -202,7 +202,7 @@ public class CountryManager implements CountryService {
 		cityToUpdate=cityDao.save(cityToUpdate);
 		CityDTO updatedCityDTO=new CityDTO();
 		updatedCityDTO.setCityName(cityToUpdate.getCityName());
-		updatedCityDTO.setCountryId(cityToUpdate.getCityId());
+		updatedCityDTO.setCountry(country);
 
 		return updatedCityDTO;
 
@@ -214,8 +214,8 @@ public class CountryManager implements CountryService {
 		Country country=countryDao.findCountryByCountryName(countryName)
 				.orElseThrow(()-> new RuntimeException("This country by Id does not exist."));
 
-		City cityToUpdate=cityDao.findCityByCityName(cityName)
-				.orElseThrow(()-> new RuntimeException("This city does not exist."));
+		City cityToUpdate=cityDao.findCityByCityName(cityName);
+
 
 		if(!cityToUpdate.getCountry().equals(country)){
 			throw new IllegalStateException("City is not in the specified country");
@@ -224,7 +224,7 @@ public class CountryManager implements CountryService {
 		cityToUpdate=cityDao.save(cityToUpdate);
 		CityDTO updatedCityDTO=new CityDTO();
 		updatedCityDTO.setCityName(cityToUpdate.getCityName());
-		updatedCityDTO.setCountryId(cityToUpdate.getCityId());
+		updatedCityDTO.setCountry(country);
 
 		return updatedCityDTO;
 
@@ -232,7 +232,7 @@ public class CountryManager implements CountryService {
 	}
 
 	@Override
-	public void deleteCityInCountryByName(String countryName,DeleteCityInCountryRequest deleteCityInCountryRequest) {
+	public void deleteCityInCountryByName(String countryName, DeleteCityInCountryRequest deleteCityInCountryRequest) {
 		Country country=countryDao.findCountryByCountryName(countryName)
 				.orElseThrow(()->new RuntimeException("This country does not exist."));
 		City existingCity=cityDao.findCityByCityIdOrCityName(deleteCityInCountryRequest.cityId(), deleteCityInCountryRequest.cityName())
