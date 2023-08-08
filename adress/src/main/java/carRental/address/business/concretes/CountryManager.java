@@ -75,7 +75,7 @@ public class CountryManager implements CountryService {
 
 
 		}
-		else if (updateRequest.countryName() !=null && updateRequest.countryName().equals(country.getCountryName())) {
+		else if (updateRequest.countryName().equals(country.getCountryName())) {
 			throw new RuntimeException("This country name update is same as before.");
 
 		}
@@ -91,7 +91,7 @@ public class CountryManager implements CountryService {
 				.orElseThrow(() -> new RuntimeException("Country with this id is not found")
 				);
 
-		if (updateRequest.countryName() !=null && !updateRequest.countryName().equals(country.getCountryName())) {
+		if (!updateRequest.countryName().equals(country.getCountryName())) {
 			country.setCountryName(updateRequest.countryName());
 			country=countryDao.save(country);
 
@@ -100,14 +100,14 @@ public class CountryManager implements CountryService {
 			updatedCountryDTO.setCountryId(country.getCountryId());
 
 		}
-		else if (updateRequest.countryName() !=null && updateRequest.countryName().equals(country.getCountryName())) {
+		else{
 			throw new RuntimeException("This country name update is same as before.");
-
+		}
 
 		}
 
 
-	}
+
 
 
 	@Override

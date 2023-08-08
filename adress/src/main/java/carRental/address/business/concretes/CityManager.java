@@ -137,18 +137,20 @@ public class CityManager implements CityService {
         Street existingStreet = streetDao.findStreetByStreetName(addStreetRequest.streetName());
 
         if(existingCity==null){
-            throw new RuntimeException("This city is not found by id");
+            throw new RuntimeException("This city is not found by name");
         }
         if(existingStreet!=null){
             throw new RuntimeException("This street name is same as before.");
         }
 
-        existingStreet.setStreetName(addStreetRequest.streetName());
+        Street addedStreet=new Street();
+        addedStreet.setStreetName(addStreetRequest.streetName());
+        streetDao.save(addedStreet);
 
         StreetDTO addedStreetDTO=new StreetDTO();
-        addedStreetDTO.setStreetId(existingStreet.getStreetId());
-        addedStreetDTO.setStreetName(existingStreet.getStreetName());
-        addedStreetDTO.setCity(existingStreet.getCity());
+        addedStreetDTO.setStreetId(addedStreet.getStreetId());
+        addedStreetDTO.setStreetName(addedStreet.getStreetName());
+        addedStreetDTO.setCity(existingCity);
         return addedStreetDTO;
     }
     public StreetDTO updateStreetInCityByName(String cityName,String streetName,AddStreetRequest addStreetRequest){
