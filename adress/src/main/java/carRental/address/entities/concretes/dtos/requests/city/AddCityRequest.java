@@ -2,6 +2,5 @@ package carRental.address.entities.concretes.dtos.requests.city;
 
 import carRental.address.entities.concretes.Country;
 
-public record AddCityRequest(String countryName,
-                             String cityName) {
+public record AddCityRequest(String cityName) {
 }

@@ -29,17 +29,16 @@ public class CityController {
         super();
         this.cityService=cityService;
     }
-    @PostMapping("/AddCity")
+    @PostMapping("/AddCity/{countryName}")
     @ResponseStatus(HttpStatus.CREATED)
-    public CityDTO addCity(@RequestBody AddCityRequest addCityRequest){
-        return cityService.addCity(addCityRequest);
+    public CityDTO addCity(@PathVariable String countryName,@RequestBody AddCityRequest addCityRequest){return cityService.addCity(countryName,addCityRequest);
     }
     @PutMapping("/UpdateCityByName/{cityName}")
     public void updateCityByName(@PathVariable String cityName, UpdateCityRequest updateCityRequest){cityService.updateCityByName(cityName,updateCityRequest);}
     @PutMapping("/UpdateCityById/{cityId}")
     public void updateCityById(@PathVariable int cityId,UpdateCityRequest updateCityRequest) {cityService.updateCityById(cityId,updateCityRequest);}
-    @DeleteMapping("/DeleteCityByName/{deleteCityByNameRequest}")
-    public void deleteCityByName(@PathVariable DeleteCityByNameRequest deleteCityByNameRequest){cityService.deleteCityByName(deleteCityByNameRequest);}
+    @DeleteMapping("/DeleteCityByName")
+    public void deleteCityByName(@RequestBody DeleteCityByNameRequest deleteCityByNameRequest){cityService.deleteCityByName(deleteCityByNameRequest);}
     @DeleteMapping("/DeleteCityById")
     public void deleteCityById(@RequestBody DeleteCityByIdRequest deleteCityByIdRequest){cityService.deleteCityById(deleteCityByIdRequest);}
     @PostMapping("/AddStreetToCityByName/{cityName}")

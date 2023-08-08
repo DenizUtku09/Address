@@ -4,13 +4,11 @@ package carRental.address.entities.concretes;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -19,9 +17,11 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name="street")
 @Builder
+@Getter
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Street {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +34,13 @@ public class Street {
 	private String streetName;
 
 
-
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "city_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private City city;
 
-  /*  @OneToMany()
-	@JoinColumn(name = "buildingNo_id")
+   /* @OneToMany
+	@JoinColumn(name = "BuildingNumber_id")
     private List<BuildingNumber> buildingNumbers;*/
 }

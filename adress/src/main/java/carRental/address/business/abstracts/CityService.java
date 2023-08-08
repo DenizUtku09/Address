@@ -11,7 +11,7 @@ import carRental.address.entities.concretes.dtos.requests.street.DeleteStreetByN
 import java.util.List;
 
 public interface CityService {
-    CityDTO addCity(AddCityRequest addCityRequest);
+    CityDTO addCity(String countryName,AddCityRequest addCityRequest);
     void updateCityByName(String cityName, UpdateCityRequest updateCityRequest);
     void updateCityById(int cityId,UpdateCityRequest updateCityRequest);
     void deleteCityByName(DeleteCityByNameRequest deleteCityByNameRequest);

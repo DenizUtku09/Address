@@ -3,10 +3,8 @@ package carRental.address.business.concretes;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import carRental.address.entities.concretes.dtos.CityDTO;
 import carRental.address.entities.concretes.dtos.CountryDTO;
-import carRental.address.entities.concretes.dtos.mappers.CityDTOMapper;
 import carRental.address.entities.concretes.dtos.mappers.CountryDTOMapper;
 import carRental.address.entities.concretes.dtos.requests.country.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,17 +22,16 @@ import carRental.address.entities.concretes.Country;
 public class CountryManager implements CountryService {
 
 	private final CountryDTOMapper countryDTOMapper;
-	private final CityDTOMapper cityDTOMapper;
 	private final CountryDao countryDao;
 	private final CityDao cityDao;
 
 	@Autowired
-	public CountryManager(CityDao cityDao,CountryDao countryDao,CountryDTOMapper countryDTOMapper,CityDTOMapper cityDTOMapper) {
+	public CountryManager(CityDao cityDao,CountryDao countryDao,CountryDTOMapper countryDTOMapper) {
 		super();
 		this.countryDao=countryDao;
 		this.cityDao=cityDao;
 		this.countryDTOMapper=countryDTOMapper;
-		this.cityDTOMapper=cityDTOMapper;
+
 
 
 	}
