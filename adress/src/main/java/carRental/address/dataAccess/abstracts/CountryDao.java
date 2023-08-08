@@ -1,7 +1,6 @@
 package carRental.address.dataAccess.abstracts;
 
-import carRental.address.entities.concretes.dtos.CityDTO;
-import carRental.address.entities.concretes.dtos.CountryDTO;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import carRental.address.entities.concretes.Country;
@@ -22,7 +21,6 @@ public interface CountryDao extends JpaRepository<Country,Integer> {
 	void deleteCountryByCountryId(int countryId);
 
 
-	Optional<Country> existsCountryByCountryName(String countryName);
-	Optional<Country> existsCountryByCountryId(int countryId);
+
 
 }

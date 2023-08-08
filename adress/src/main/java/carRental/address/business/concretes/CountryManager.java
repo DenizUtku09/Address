@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import carRental.address.entities.concretes.dtos.CityDTO;
 import carRental.address.entities.concretes.dtos.CountryDTO;
+import carRental.address.entities.concretes.dtos.mappers.CityDTOMapper;
 import carRental.address.entities.concretes.dtos.mappers.CountryDTOMapper;
 import carRental.address.entities.concretes.dtos.requests.country.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,15 +23,17 @@ import carRental.address.entities.concretes.Country;
 public class CountryManager implements CountryService {
 
 	private final CountryDTOMapper countryDTOMapper;
+	private final CityDTOMapper cityDTOMapper;
 	private final CountryDao countryDao;
 	private final CityDao cityDao;
 
 	@Autowired
-	public CountryManager(CityDao cityDao, CountryDao countryDao, CountryDTOMapper countryDTOMapper) {
+	public CountryManager(CityDao cityDao, CountryDao countryDao, CountryDTOMapper countryDTOMapper,CityDTOMapper cityDTOMapper) {
 		super();
 		this.countryDao = countryDao;
 		this.cityDao = cityDao;
 		this.countryDTOMapper = countryDTOMapper;
+		this.cityDTOMapper=cityDTOMapper;
 
 
 	}
@@ -102,23 +105,23 @@ public class CountryManager implements CountryService {
 
 	@Override
 	public void deleteCountryByName(DeleteCountryByNameRequest deleteCountryByNameRequest) {
-		if (countryDao.existsCountryByCountryName(deleteCountryByNameRequest.countryName()).isEmpty()) {
-			throw new EntityNotFoundException("Country with this name is not found.");
-		}
+		Country existingCountry=countryDao.findCountryByCountryName(deleteCountryByNameRequest.countryName())
+						.orElseThrow(()->new RuntimeException("This country you are trying to delete does not exist by name."));
 
-		countryDao.deleteCountryByCountryName(deleteCountryByNameRequest.countryName());
+		if(existingCountry!=null) {
+			countryDao.deleteCountryByCountryName(deleteCountryByNameRequest.countryName());
+		}
 
 	}
 
 	@Override
 	public void deleteCountryById(DeleteCountryByIdRequest deleteCountryByIdRequest) {
-		if (countryDao.existsCountryByCountryId(deleteCountryByIdRequest.countryId()).isEmpty()) {
-			throw new EntityNotFoundException("Country with this id [%s] not found".formatted(deleteCountryByIdRequest.countryId())
-			);
-		}
+		Country existingCountry=countryDao.findCountryByCountryId(deleteCountryByIdRequest.countryId())
+						.orElseThrow(()->new EntityNotFoundException("This country you are trying to delete does not exist by name."));
 
-		countryDao.deleteCountryByCountryId(deleteCountryByIdRequest.countryId());
-	}
+		if(existingCountry!=null) {
+			countryDao.deleteCountryByCountryId(deleteCountryByIdRequest.countryId());
+		}}
 
 
 	@Override
@@ -213,6 +216,9 @@ public class CountryManager implements CountryService {
 		City existingCity = cityDao.findCityByCityIdOrCityName(deleteCityInCountryRequest.cityId(), deleteCityInCountryRequest.cityName())
 				.orElseThrow(() -> new RuntimeException("This city does not exist."));
 
+		if(!existingCity.getCountry().equals(country)){
+			throw new IllegalStateException("The city you are trying to delete is not in the specified country.");
+		}
 		cityDao.deleteCityByCityNameOrCityId(deleteCityInCountryRequest.cityName(), deleteCityInCountryRequest.cityId());
 
 
@@ -225,9 +231,11 @@ public class CountryManager implements CountryService {
 		City existingCity = cityDao.findCityByCityIdOrCityName(deleteCityInCountryRequest.cityId(), deleteCityInCountryRequest.cityName())
 				.orElseThrow(() -> new RuntimeException("This city does not exist."));
 
-		cityDao.deleteCityByCityNameOrCityId(deleteCityInCountryRequest.cityName(), deleteCityInCountryRequest.cityId());
-
-
+		if(!existingCity.getCountry().equals(country))
+		{
+			throw new IllegalStateException("The city you are trying to delete is not in the specified country.");
+		}
+			cityDao.deleteCityByCityNameOrCityId(deleteCityInCountryRequest.cityName(), deleteCityInCountryRequest.cityId());
 	}
 
 
@@ -267,10 +275,16 @@ public class CountryManager implements CountryService {
 			return cityDao.findCitiesByCountryCountryName(countryName);
 		}}
 	@Override
-	public List<City> getCitiesInCountryById (int countryId){
+	public List<CityDTO> getCitiesInCountryById (int countryId){
 		Country existingCountry = countryDao.findCountryByCountryId(countryId)
 				.orElseThrow(() -> new RuntimeException("This country by id does not exist."));
-		return cityDao.findAll();
+
+
+		if(existingCountry!=null){
+			return cityDao.findCitiesByCountryCountryId(countryId).stream().map(cityDTOMapper).collect(Collectors.toList());
+		}
+		else{throw new RuntimeException("Unknown error");}
+
 
 
 }}

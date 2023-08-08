@@ -26,7 +26,7 @@ public interface CountryService {
 	Optional<Country> getCountryById(int countryId);
 	Optional<Country> getCountryByName(String countryName);
 	List<City> getCitiesInCountryByName(String countryName);
-	List<City> getCitiesInCountryById(int countryId);
+	List<CityDTO> getCitiesInCountryById(int countryId);
 
 
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class StreetManager implements StreetService {
-    private StreetDao streetDao;
+    private final StreetDao streetDao;
     @Autowired
     public StreetManager(StreetDao streetDao){
         super();
