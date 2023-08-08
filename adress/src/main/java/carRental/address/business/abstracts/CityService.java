@@ -26,7 +26,7 @@ public interface CityService {
     City getCityById(int cityId);
     List<Street> getStreetsInCityByName(String cityName);
     List<Street> getStreetsInCityById(int cityId);
-    List<City> getAllCities();
+    List<CityDTO> getAllCities();
 
 
 

@@ -62,5 +62,5 @@ public class CityController {
     @GetMapping("/GetStreetsInCityById/{cityId}")
     public List<Street> getStreetsInCityById(@PathVariable int cityId){return cityService.getStreetsInCityById(cityId);}
     @GetMapping("/GetAllCities")
-    public List<City> getAllCities(){return cityService.getAllCities();}
+    public List<CityDTO> getAllCities(){return cityService.getAllCities();}
 }

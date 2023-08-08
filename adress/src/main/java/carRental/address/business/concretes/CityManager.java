@@ -8,6 +8,7 @@ import carRental.address.entities.concretes.Country;
 import carRental.address.entities.concretes.Street;
 import carRental.address.entities.concretes.dtos.CityDTO;
 import carRental.address.entities.concretes.dtos.StreetDTO;
+import carRental.address.entities.concretes.dtos.mappers.CityDTOMapper;
 import carRental.address.entities.concretes.dtos.requests.city.AddCityRequest;
 import carRental.address.entities.concretes.dtos.requests.city.DeleteCityByIdRequest;
 import carRental.address.entities.concretes.dtos.requests.city.DeleteCityByNameRequest;
@@ -19,63 +20,61 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CityManager implements CityService {
     private final CountryDao countryDao;
     private final CityDao cityDao;
+    private final CityDTOMapper cityDTOMapper;
     private final StreetDao streetDao;
     @Autowired
-    public CityManager(CityDao cityDao, StreetDao streetDao,CountryDao countryDao){
+    public CityManager(CityDao cityDao, StreetDao streetDao,CountryDao countryDao,CityDTOMapper cityDTOMapper){
         super();
         this.cityDao=cityDao;
         this.countryDao=countryDao;
         this.streetDao = streetDao;
+        this.cityDTOMapper=cityDTOMapper;
     }
     @Override
     public CityDTO addCity(String countryName,AddCityRequest addCityRequest) {
-        Optional<Country> existingCountry = countryDao.findCountryByCountryName(countryName);
+        Country existingCountry = countryDao.findCountryByCountryName(countryName)
+                .orElseThrow(()->new EntityNotFoundException("This country is not found."));
         City existingCity = cityDao.findCityByCityName(addCityRequest.cityName());
-
-        if (existingCountry.isEmpty()) {
-            throw new EntityNotFoundException("This country does not exist.");
+        if(addCityRequest.cityName().equals(existingCity.getCityName())) {
+            throw new IllegalStateException("This city you are trying to add already exists.");
         }
-        if (existingCity!=null) {
-            throw new IllegalStateException("This city already exists.");
-
-
-        }
-
+        else{
             City addedCity = new City();
             addedCity.setCityName(addCityRequest.cityName());
-            addedCity.setCountry(existingCountry.get());
+            addedCity.setCountry(existingCountry);
             cityDao.save(addedCity);
 
             CityDTO addedCityDTO = new CityDTO();
             addedCityDTO.setCityName(addedCity.getCityName());
             addedCityDTO.setCityId(addedCity.getCityId());
             addedCityDTO.setCountry(addedCity.getCountry());
-            return addedCityDTO;
 
-
-
+        }
+        return null;
     }
     @Override
     public void updateCityByName(String cityName, UpdateCityRequest updateCityRequest) {
         City existingCity = cityDao.findCityByCityName(cityName);
-        if (updateCityRequest.cityName().equals(existingCity.getCityName())) {
-            throw new IllegalStateException("This city name is same as before.");
-        }
-        if(existingCity.equals(null)){
-            throw new EntityNotFoundException("This city is not found");
-        }
-            existingCity.setCityName(updateCityRequest.cityName());
-            cityDao.save(existingCity);
 
-            CityDTO updatedCityDTO = new CityDTO();
-            updatedCityDTO.setCityId(existingCity.getCityId());
-            updatedCityDTO.setCityName(existingCity.getCityName());
+        if(updateCityRequest.cityName().equals(existingCity.getCityName())){
+            throw new IllegalStateException("This updated name is same as before.");
+        }
+        existingCity.setCityName(updateCityRequest.cityName());
+        cityDao.save(existingCity);
+
+        CityDTO updatedCityDTO= new CityDTO();
+        updatedCityDTO.setCityId(existingCity.getCityId());
+        updatedCityDTO.setCityName(existingCity.getCityName());
+
+
+
+
         }
 
     @Override
@@ -158,7 +157,7 @@ public class CityManager implements CityService {
         if(existingCity==null){
             throw new RuntimeException("This city is not found by id");
         }
-        if(existingStreet!=null && existingCity !=null){
+        if(existingStreet!=null){
             if(addStreetRequest.streetName().equals(existingStreet.getStreetName()))
             {
                 throw new RuntimeException("This street name is same as before.");
@@ -182,7 +181,7 @@ public class CityManager implements CityService {
         if(existingCity==null){
             throw new RuntimeException("This city is not found by id");
         }
-        if(existingStreet!=null && existingCity !=null){
+        if(existingStreet!=null){
             if(addStreetRequest.streetName().equals(existingStreet.getStreetName()))
             {
                 throw new RuntimeException("This street name is same as before.");
@@ -200,10 +199,10 @@ public class CityManager implements CityService {
     public void deleteStreetInCityByName(String cityName, DeleteStreetByNameRequest deleteStreetByNameRequest){
         City existingCity=cityDao.findCityByCityName(cityName);
         Street existingStreet=streetDao.findStreetByStreetName(deleteStreetByNameRequest.streetName());
-        if(existingCity.equals(null)){
+        if(existingCity==null){
             throw new EntityNotFoundException("This city by name has not been found");
         }
-        else if(existingStreet.equals(null)){
+        else if(existingStreet==null){
             throw new EntityNotFoundException("This street you are trying to delete does not exist by name.");
         }
         else{
@@ -212,10 +211,10 @@ public class CityManager implements CityService {
     public void deleteStreetInCityById(int cityId, DeleteStreetByIdRequest deleteStreetByIdRequest){
         City existingCity=cityDao.findCityByCityId(cityId);
         Street existingStreet=streetDao.findStreetByStreetId(deleteStreetByIdRequest.streetId());
-        if(existingCity.equals(null)){
+        if(existingCity==null){
             throw new EntityNotFoundException("This city by name has not been found");
         }
-        else if(existingStreet.equals(null)){
+        else if(existingStreet==null){
             throw new EntityNotFoundException("This street you are trying to delete does not exist by name.");
         }
         else{
@@ -256,8 +255,11 @@ public class CityManager implements CityService {
 
     }
 
-    public List<City> getAllCities(){
-        return cityDao.findAll();
+    public List<CityDTO> getAllCities(){
+        return cityDao.findAll()
+                .stream()
+                .map(cityDTOMapper)
+                .collect(Collectors.toList());
 
     }
 }

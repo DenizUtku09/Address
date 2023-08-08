@@ -1,6 +1,5 @@
 package carRental.address.dataAccess.abstracts;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import carRental.address.entities.concretes.dtos.CityDTO;
