@@ -1,5 +1,6 @@
 package carRental.address.dataAccess.abstracts;
 
+import java.util.List;
 import java.util.Optional;
 
 import carRental.address.entities.concretes.dtos.CityDTO;
@@ -16,7 +17,6 @@ public interface CityDao extends JpaRepository<City, Integer>{
 
 	City findCityByCityId(int cityId);
 
-	Optional<CityDTO> findCitiesByCountryCountryName(String countryName);
 	Optional<City> findCitiesByCountryCountryId (int countryId);
 
 
@@ -25,6 +25,7 @@ public interface CityDao extends JpaRepository<City, Integer>{
 
 
 
+	List<City> findCitiesByCountryCountryName(String countryName);
 
 
 	void deleteCityByCityNameOrCityId(String cityName,int cityId);
