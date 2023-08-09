@@ -16,6 +16,6 @@ public class StreetDTO {
 
     private City city;
 
-    private List<String> buildingNumbers;
+    private List<BuildingNumber> buildingNumbers;
 
 }

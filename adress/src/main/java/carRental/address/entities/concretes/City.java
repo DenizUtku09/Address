@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
@@ -31,7 +28,7 @@ public class City {
     @JsonProperty("id")
 	private int cityId;
     @Column(name="name")
-    @JsonProperty("cityname")
+    @JsonProperty("city_name")
 	private String cityName;
     @JsonBackReference
     @ManyToOne

@@ -37,7 +37,7 @@ public class CountryController {
 	public List<City> getCitiesInCountryByName(@PathVariable String countryName){return countryService.getCitiesInCountryByName(countryName);}
 	@GetMapping("/GetCitiesInCountryById/{countryId}")
 	@ResponseBody
-	public List<City> getCitiesInCountryById(@PathVariable int countryId){return countryService.getCitiesInCountryById(countryId);}
+	public List<CityDTO> getCitiesInCountryById(@PathVariable int countryId){return countryService.getCitiesInCountryById(countryId);}
 	@PostMapping("/AddCountry")
 	public ResponseEntity<CountryDTO> addCountry(@RequestBody AddCountryRequest addCountryRequest,CountryDTO countryDTO) {CountryDTO addedCountry=countryService.addCountry(addCountryRequest,countryDTO);return ResponseEntity.ok(addedCountry);}
 	@PostMapping("/AddCitiesToCountryById/{countryId}")
