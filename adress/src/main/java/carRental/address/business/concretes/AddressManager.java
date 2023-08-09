@@ -11,7 +11,7 @@ import carRental.address.dataAccess.abstracts.AddressDao;
 import carRental.address.entities.concretes.Address;
 @Service
 public class AddressManager implements AddressService {
-	private AddressDao addressDao;
+	private final AddressDao addressDao;
 	@Autowired
 	
 	public AddressManager (AddressDao addressDao) {

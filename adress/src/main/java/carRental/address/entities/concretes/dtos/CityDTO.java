@@ -1,17 +1,7 @@
 package carRental.address.entities.concretes.dtos;
-
-
 import carRental.address.entities.concretes.Country;
-
-import carRental.address.entities.concretes.Street;
 import lombok.*;
-
-
-
 import java.util.List;
-
-
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,10 +9,6 @@ import java.util.List;
 public class CityDTO {
     private String cityName;
     private int cityId;
-
     private Country country;
     private List<String> streets;
-
-
-
 }

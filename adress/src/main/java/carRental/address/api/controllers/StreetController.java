@@ -32,5 +32,6 @@ public class StreetController {
     public void deleteStreetByName(DeleteStreetByNameRequest deleteStreetByNameRequest){streetService.deleteStreetByName(deleteStreetByNameRequest);}
     @PostMapping("/AddBuildingNumberToStreetByName/{streetName}")
     public ResponseEntity<BuildingNumberDTO> addBuildingNumberToStreetByName(@PathVariable String streetName, AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.addBuildingNumberToStreetByName(streetName,addBuildingNumberRequest));}
-
+    @PostMapping("/AddBuildingNumberToStreetById/{streetId}")
+    public ResponseEntity<BuildingNumberDTO> addBuildingNumberToStreetById(@PathVariable int streetId,AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.addBuildingNumberToStreetById(streetId,addBuildingNumberRequest));}
 }
