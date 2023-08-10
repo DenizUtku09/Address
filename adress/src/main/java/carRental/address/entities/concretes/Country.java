@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @Entity
@@ -31,6 +33,7 @@ public class Country {
 
 	@JsonManagedReference
     @OneToMany(mappedBy = "country",cascade = CascadeType.ALL,orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
     private List<City> cities=new ArrayList<>();
 
 }
