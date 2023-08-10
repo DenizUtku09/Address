@@ -58,5 +58,4 @@ public class StreetController {
     @GetMapping("/GetBuildingNumbersInStreetByName/{streetName}")
     public List<BuildingNumber> getBuildingNumbersInStreetByName(@PathVariable String streetName){return streetService.getBuildingNumbersInStreetByName(streetName);}
     @GetMapping("/GetBuildingNumbersInStreetById/{streetId}")
-    public List<BuildingNumber> getBuildingNumbersInStreetById(@PathVariable int streetId){return streetService.getBuildingNumbersInStreetById(streetId);}
-}
+    public List<BuildingNumber> getBuildingNumbersInStreetById(@PathVariable int streetId){return streetService.getBuildingNumbersInStreetById(streetId);}}

@@ -1,9 +1,12 @@
 package carRental.address.api.controllers;
 
 import carRental.address.business.abstracts.BuildingNumberService;
+import carRental.address.entities.concretes.BuildingNumber;
 import carRental.address.entities.concretes.dtos.BuildingNumberDTO;
 import carRental.address.entities.concretes.dtos.requests.buildingnumber.AddBuildingNumberRequest;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/BuildingNumber")
@@ -23,5 +26,10 @@ public class BuildingNumberController {
     public void deleteBuildingNumberByNo(int buildingNo){buildingNumberService.deleteBuildingNumberByNo(buildingNo);}
     @DeleteMapping("/DeleteBuildingNumberById")
     public void deleteBuildingNumberById(int buildingNumberId){buildingNumberService.deleteBuildingNumberById(buildingNumberId);}
-
+    @GetMapping("/GetAllBuildingNumbers")
+    public List<BuildingNumber> getAllBuildingNumbers(){return buildingNumberService.getAllBuildingNumbers();}
+    @GetMapping("/GetBuildingNumberByNo/{buildingNo}")
+    public BuildingNumber getBuildingNumberByNo(@PathVariable int buildingNo){return buildingNumberService.getBuildingNumberByNo(buildingNo);}
+    @GetMapping("/GetBuildingNumberById/{buildingNumberId}")
+    public BuildingNumber getBuildingNumberById(@PathVariable int buildingNumberId){return buildingNumberService.getBuildingNumberById(buildingNumberId);}
 }

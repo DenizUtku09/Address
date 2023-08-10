@@ -11,6 +11,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BuildingNumberManager implements BuildingNumberService {
     private final BuildingNumberDao buildingNumberDao;
@@ -67,4 +69,22 @@ public class BuildingNumberManager implements BuildingNumberService {
 
     }
 
-}
+    @Override
+    public List<BuildingNumber> getAllBuildingNumbers() {
+        return buildingNumberDao.findAll();
+    }
+
+    @Override
+    public BuildingNumber getBuildingNumberByNo(int buildingNo) {
+        boolean existingBuildingNumber=buildingNumberDao.existsByBuildingNo(buildingNo);
+        if(existingBuildingNumber){return buildingNumberDao.findByBuildingNo(buildingNo);}
+        else{throw new EntityNotFoundException("This building number does not exist.");}}
+
+    @Override
+    public BuildingNumber getBuildingNumberById(int buildingNumberId) {
+        boolean existingBuildingNumber=buildingNumberDao.existsByBuildingNumberId(buildingNumberId);
+        if(existingBuildingNumber){return buildingNumberDao.findByBuildingNumberId(buildingNumberId);}
+        else{throw new EntityNotFoundException("This building number does not exist.");}}
+    }
+
+
