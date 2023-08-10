@@ -34,4 +34,8 @@ public class StreetController {
     public ResponseEntity<BuildingNumberDTO> addBuildingNumberToStreetByName(@PathVariable String streetName, AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.addBuildingNumberToStreetByName(streetName,addBuildingNumberRequest));}
     @PostMapping("/AddBuildingNumberToStreetById/{streetId}")
     public ResponseEntity<BuildingNumberDTO> addBuildingNumberToStreetById(@PathVariable int streetId,AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.addBuildingNumberToStreetById(streetId,addBuildingNumberRequest));}
-    }
+    @PutMapping("/UpdateBuildingNumberInStreetByName/{streetName}/building-number/{buildingNo}")
+    public ResponseEntity<BuildingNumberDTO> updateBuildingNumberInStreetByName(@PathVariable String streetName,@PathVariable int buildingNo,AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.updateBuildingNumberInStreetByName(streetName,buildingNo,addBuildingNumberRequest));}
+    @PutMapping("/UpdateBuildingNumberInStreetById/{streetId}/building-number/{buildingNumberId}")
+    public ResponseEntity<BuildingNumberDTO> updateBuildingNumberInStreetByName(@PathVariable int streetId,@PathVariable int buildingNumberId,AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.updateBuildingNumberInStreetById(streetId,buildingNumberId,addBuildingNumberRequest));}
+}
