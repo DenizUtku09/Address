@@ -130,5 +130,43 @@ public class StreetManager implements StreetService {
         addedBuildingNumber.setStreet(addedBuildingNumber.getStreet());
         return addedBuildingNumberDTO;
     }
+
+    @Override
+    public BuildingNumberDTO updateBuildingNumberInStreetByName(String streetName, int buildingNo, AddBuildingNumberRequest addBuildingNumberRequest) {
+        Street existingStreet = streetDao.findByStreetName(streetName);
+        BuildingNumber existingBuildingNumber = buildingNumberDao.findByBuildingNo(buildingNo);
+        if (existingStreet == null) {
+            throw new RuntimeException("This street does not exist by name");
+        }
+        if (existingBuildingNumber!=null) {
+            existingBuildingNumber.setBuildingNo(addBuildingNumberRequest.buildingNo());
+
+            BuildingNumberDTO updatedBuildingNumberDTO = new BuildingNumberDTO();
+            updatedBuildingNumberDTO.setBuildingNo(existingBuildingNumber.getBuildingNo());
+            return updatedBuildingNumberDTO;
+
+        }
+        else{
+            throw new RuntimeException("This building number does not exist.");
+        }}
+
+    @Override
+    public BuildingNumberDTO updateBuildingNumberInStreetById(int streetId, int buildingNumberId, AddBuildingNumberRequest addBuildingNumberRequest) {
+        Street existingStreet = streetDao.findByStreetId(streetId);
+        BuildingNumber existingBuildingNumber = buildingNumberDao.findByBuildingNumberId(buildingNumberId);
+        if (existingStreet == null) {
+            throw new RuntimeException("This street does not exist by name");
+        }
+        if (existingBuildingNumber!=null) {
+            existingBuildingNumber.setBuildingNo(addBuildingNumberRequest.buildingNo());
+
+            BuildingNumberDTO updatedBuildingNumberDTO = new BuildingNumberDTO();
+            updatedBuildingNumberDTO.setBuildingNo(existingBuildingNumber.getBuildingNo());
+            return updatedBuildingNumberDTO;
+
+        }
+        else{
+            throw new RuntimeException("This building number does not exist.");
+        }}
 }
 

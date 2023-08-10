@@ -12,8 +12,10 @@ public interface StreetService {
     void deleteStreetByName(DeleteStreetByNameRequest deleteStreetByNameRequest);
     void deleteStreetById(DeleteStreetByIdRequest deleteStreetByIdRequest);
     BuildingNumberDTO addBuildingNumberToStreetByName(String streetName, AddBuildingNumberRequest addBuildingNumberRequest);
-
     BuildingNumberDTO addBuildingNumberToStreetById(int streetId,AddBuildingNumberRequest addBuildingNumberRequest);
+    BuildingNumberDTO updateBuildingNumberInStreetByName(String streetName,int buildingNo,AddBuildingNumberRequest addBuildingNumberRequest);
+    BuildingNumberDTO updateBuildingNumberInStreetById(int streetId,int buildingNumberId,AddBuildingNumberRequest addBuildingNumberRequest);
+
 
 
 
