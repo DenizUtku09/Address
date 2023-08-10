@@ -8,7 +8,10 @@ import carRental.address.entities.concretes.City;
 import carRental.address.entities.concretes.Street;
 import carRental.address.entities.concretes.dtos.BuildingNumberDTO;
 import carRental.address.entities.concretes.dtos.StreetDTO;
+import carRental.address.entities.concretes.dtos.mappers.StreetDTOMapper;
 import carRental.address.entities.concretes.dtos.requests.buildingnumber.AddBuildingNumberRequest;
+import carRental.address.entities.concretes.dtos.requests.buildingnumber.DeleteBuildingNumberByIdRequest;
+import carRental.address.entities.concretes.dtos.requests.buildingnumber.DeleteBuildingNumberByNameRequest;
 import carRental.address.entities.concretes.dtos.requests.street.AddStreetRequest;
 import carRental.address.entities.concretes.dtos.requests.street.DeleteStreetByIdRequest;
 import carRental.address.entities.concretes.dtos.requests.street.DeleteStreetByNameRequest;
@@ -16,20 +19,27 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StreetManager implements StreetService {
+    private final StreetDTOMapper streetDTOMapper;
+
     private final CityDao cityDao;
     private final BuildingNumberDao buildingNumberDao;
     private final StreetDao streetDao;
     @Autowired
-    public StreetManager(StreetDao streetDao,CityDao cityDao,BuildingNumberDao buildingNumberDao){
+
+    public StreetManager(StreetDao streetDao,CityDao cityDao,BuildingNumberDao buildingNumberDao,StreetDTOMapper streetDTOMapper){
         super();
         this.cityDao=cityDao;
         this.streetDao=streetDao;
         this.buildingNumberDao=buildingNumberDao;
+        this.streetDTOMapper=streetDTOMapper;
     }
+
     @Override
     public StreetDTO addStreet(String cityName, AddStreetRequest addStreetRequest) {
         City existingCity=cityDao.findByCityName(cityName)
@@ -63,7 +73,7 @@ public class StreetManager implements StreetService {
             updatedStreetDTO.setCity(existingStreet.getCity());
             updatedStreetDTO.setStreetId(existingStreet.getStreetId());
             updatedStreetDTO.setStreetName(existingStreet.getStreetName());
-            updatedStreetDTO.setBuildingNumbers(existingStreet.getBuildingNumbers());
+
         }}
     @Override
     public void updateStreetById(int streetId, AddStreetRequest addStreetRequest) {
@@ -78,7 +88,7 @@ public class StreetManager implements StreetService {
             updatedStreetDTO.setCity(existingStreet.getCity());
             updatedStreetDTO.setStreetId(existingStreet.getStreetId());
             updatedStreetDTO.setStreetName(existingStreet.getStreetName());
-            updatedStreetDTO.setBuildingNumbers(existingStreet.getBuildingNumbers());
+
         }}
     @Override
     public void deleteStreetByName(DeleteStreetByNameRequest deleteStreetByNameRequest) {
@@ -168,5 +178,63 @@ public class StreetManager implements StreetService {
         else{
             throw new RuntimeException("This building number does not exist.");
         }}
+
+    @Override
+    public void deleteBuildingNumberInStreetByName(String streetName, DeleteBuildingNumberByNameRequest deleteBuildingNumberByNameRequest) {
+        boolean existingStreet=streetDao.existsByStreetName(streetName);
+        BuildingNumber existingBuildingNumber=buildingNumberDao.findByBuildingNo(deleteBuildingNumberByNameRequest.buildingNo());
+
+        if(!existingStreet){throw new EntityNotFoundException("This street is not found by name");}
+        else if (existingBuildingNumber==null) {throw new EntityNotFoundException("This building number you are trying to delete does not exist by name.");}
+        else{buildingNumberDao.delete(existingBuildingNumber);}
+
+
+
+    }
+
+    @Override
+    public void deleteBuildingNumberInStreetById(int streetId, DeleteBuildingNumberByIdRequest deleteBuildingNumberByIdRequest) {
+        boolean existingStreet=streetDao.existsByStreetId(streetId);
+        BuildingNumber existingBuildingNumber=buildingNumberDao.findByBuildingNumberId(deleteBuildingNumberByIdRequest.buildingNumberId());
+        if(!existingStreet){throw new EntityNotFoundException("This street is not found by ID");}
+        else if(existingBuildingNumber==null){throw new EntityNotFoundException("This building number you are trying to delete does not exist by ID");}
+        else{buildingNumberDao.delete(existingBuildingNumber);}
+    }
+
+    @Override
+    public List<StreetDTO> getAllStreets() {
+        return streetDao.findAll()
+                .stream()
+                .map(streetDTOMapper)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Street getStreetByName(String streetName) {
+        Street existingStreet=streetDao.findByStreetName(streetName);
+        if(existingStreet==null){throw new EntityNotFoundException("This street does not exist.");}
+        else{return streetDao.findByStreetName(streetName);}
+    }
+
+    @Override
+    public Street getStreetById(int streetId) {
+        Street existingStreet=streetDao.findByStreetId(streetId);
+        if(existingStreet==null){throw new EntityNotFoundException("This street does not exist");}
+        else{return streetDao.findByStreetId(streetId);}
+    }
+
+    @Override
+    public List<BuildingNumber> getBuildingNumbersInStreetByName(String streetName) {
+        Street existingStreet=streetDao.findByStreetName(streetName);
+        if(existingStreet==null){throw new EntityNotFoundException("This street does not exist.");}
+        else{return buildingNumberDao.findBuildingNumbersByStreet(existingStreet);}
+    }
+
+    @Override
+    public List<BuildingNumber> getBuildingNumbersInStreetById(int streetId) {
+        Street existingStreet=streetDao.findByStreetId(streetId);
+        if(existingStreet==null){throw new EntityNotFoundException("This street does not exist.");}
+        else{return buildingNumberDao.findBuildingNumbersByStreet(existingStreet);}
+    }
 }
 

@@ -35,8 +35,8 @@ public class City {
     @JoinColumn(name = "country_id")
     private Country country;
     @JsonManagedReference
-    @OneToMany(mappedBy = "city",cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "city",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private List<Street> streets=new ArrayList<>();
 
 

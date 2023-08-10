@@ -1,4 +1,46 @@
 package carRental.address.business.concretes;
 
-public class BuildingNumberManager {
+import carRental.address.business.abstracts.BuildingNumberService;
+import carRental.address.dataAccess.abstracts.BuildingNumberDao;
+import carRental.address.dataAccess.abstracts.StreetDao;
+import carRental.address.entities.concretes.BuildingNumber;
+import carRental.address.entities.concretes.Street;
+import carRental.address.entities.concretes.dtos.BuildingNumberDTO;
+import carRental.address.entities.concretes.dtos.requests.buildingnumber.AddBuildingNumberRequest;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class BuildingNumberManager implements BuildingNumberService {
+    private final BuildingNumberDao buildingNumberDao;
+    private final StreetDao streetDao;
+    @Autowired
+    public BuildingNumberManager(BuildingNumberDao buildingNumberDao,StreetDao streetDao){
+        super();
+        this.buildingNumberDao=buildingNumberDao;
+        this.streetDao=streetDao;
+    }
+
+    @Override
+    public BuildingNumberDTO addBuildingNumber(String streetName, AddBuildingNumberRequest addBuildingNumberRequest) {
+        Street existingStreet=streetDao.findByStreetName(streetName);
+        if(existingStreet==null){throw new EntityNotFoundException("This street is not found.");}
+        else{
+            BuildingNumber addedBuildingNumber=new BuildingNumber();
+            addedBuildingNumber.setBuildingNo(addedBuildingNumber.getBuildingNo());
+            addedBuildingNumber.setStreet(existingStreet);
+            buildingNumberDao.save(addedBuildingNumber);
+            BuildingNumberDTO addedBuildingNumberDTO=new BuildingNumberDTO();
+            addedBuildingNumberDTO.setBuildingNo(addedBuildingNumber.getBuildingNo());
+            addedBuildingNumberDTO.setBuildingNumberId(addedBuildingNumber.getBuildingNumberId());
+            addedBuildingNumber.setStreet(existingStreet);
+            return addedBuildingNumberDTO;}}
+
+    @Override
+    public void updateBuildingNumberByNo(int buildingNo, AddBuildingNumberRequest addBuildingNumberRequest) {
+        BuildingNumber existingBuildingNumber=buildingNumberDao.findByBuildingNo(buildingNo);
+        if(existingBuildingNumber==null){throw new EntityNotFoundException("This building number does not exist.");}
+        else{existingBuildingNumber.setBuildingNo(addBuildingNumberRequest.buildingNo());}}
+
 }

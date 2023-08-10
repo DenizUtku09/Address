@@ -21,9 +21,4 @@ public interface CityDao extends JpaRepository<City, Integer>{
 	boolean existsByCityName(String cityName);
 	List<City> findCitiesByCountryCountryName(String countryName);
 	void deleteCityByCityNameOrCityId(String cityName,int cityId);
-
-
-
-
-
 }
