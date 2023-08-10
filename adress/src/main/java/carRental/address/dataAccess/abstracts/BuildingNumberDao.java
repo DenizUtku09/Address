@@ -12,4 +12,7 @@ public interface BuildingNumberDao extends JpaRepository<BuildingNumber,Integer>
     BuildingNumber findByBuildingNumberId(int buildingNumberId);
     Optional<BuildingNumber> findBuildingNumberByBuildingNo(int buildingNo);
     List<BuildingNumber> findBuildingNumbersByStreet(Street street);
+
+    boolean existsByBuildingNo(int buildingNo);
+    boolean existsByBuildingNumberId(int buildingNumberId);
 }

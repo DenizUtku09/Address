@@ -43,4 +43,28 @@ public class BuildingNumberManager implements BuildingNumberService {
         if(existingBuildingNumber==null){throw new EntityNotFoundException("This building number does not exist.");}
         else{existingBuildingNumber.setBuildingNo(addBuildingNumberRequest.buildingNo());}}
 
+    @Override
+    public void updateBuildingNumberById(int buildingNumberId, AddBuildingNumberRequest addBuildingNumberRequest) {
+        BuildingNumber existingBuildingNumber=buildingNumberDao.findByBuildingNumberId(buildingNumberId);
+        if(existingBuildingNumber==null){throw new EntityNotFoundException("This building number does not exist.");}
+        else{existingBuildingNumber.setBuildingNo(addBuildingNumberRequest.buildingNo());}}
+
+    @Override
+    public void deleteBuildingNumberByNo(int buildingNo) {
+        BuildingNumber existingBuildingNumber=buildingNumberDao.findByBuildingNo(buildingNo);
+        if(existingBuildingNumber!=null){buildingNumberDao.delete(existingBuildingNumber);}
+        else{throw new EntityNotFoundException("This building number does not exist by number.");}
+
+
+
+    }
+
+    @Override
+    public void deleteBuildingNumberById(int buildingNumberId) {
+        BuildingNumber existingBuildingNumber=buildingNumberDao.findByBuildingNumberId(buildingNumberId);
+        if(existingBuildingNumber!=null){buildingNumberDao.delete(existingBuildingNumber);}
+        else{throw new EntityNotFoundException("This building number does not exist by number.");}
+
+    }
+
 }
