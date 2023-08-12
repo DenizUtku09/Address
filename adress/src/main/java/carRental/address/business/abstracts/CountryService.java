@@ -16,17 +16,17 @@ public interface CountryService {
 	void updateCountryById(int countryId, CountryUpdateRequest updateRequest,CountryDTO countryDTO);
 	void deleteCountryByName(DeleteCountryByNameRequest deleteCountryByNameRequest);
 	void deleteCountryById(DeleteCountryByIdRequest deleteCountryByIdRequest);
-	CityDTO addCityToCountryByName(String countryName,CityDTO cityDTO, AddCityToCountryRequest addCityToCountryRequest);
-	CityDTO addCityToCountryById(int countryId,CityDTO cityDTO,AddCityToCountryRequest addCityToCountryRequest);
-	CityDTO updateCitiesInCountryById(int countryId, String cityName, UpdateCityInCountryRequest updateCityInCountryRequest, CityDTO cityDTO);
-	CityDTO updateCitiesInCountryByName(String countryName,UpdateCityInCountryRequest updateCityInCountryRequest,CityDTO cityDTO,String cityName);
+	CityDTO addCityToCountryByName(String countryName,AddCityToCountryRequest addCityToCountryRequest);
+	CityDTO addCityToCountryById(int countryId,AddCityToCountryRequest addCityToCountryRequest);
+	void updateCitiesInCountryById(int countryId, String cityName, UpdateCityInCountryRequest updateCityInCountryRequest);
+	void updateCitiesInCountryByName(String countryName,String cityName,UpdateCityInCountryRequest updateCityInCountryRequest);
 	void deleteCityInCountryByName(String countryName, DeleteCityInCountryRequest deleteCityInCountryRequest);
 	void deleteCityInCountryById(int countryId,DeleteCityInCountryRequest deleteCityInCountryRequest);
 	List<CountryDTO> getAllCountries();
 	Optional<Country> getCountryById(int countryId);
 	Optional<Country> getCountryByName(String countryName);
 	List<City> getCitiesInCountryByName(String countryName);
-	List<CityDTO> getCitiesInCountryById(int countryId);
+	List<City> getCitiesInCountryById(int countryId);
 
 
 

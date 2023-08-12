@@ -37,22 +37,22 @@ public class CountryController {
 	public List<City> getCitiesInCountryByName(@PathVariable String countryName){return countryService.getCitiesInCountryByName(countryName);}
 	@GetMapping("/GetCitiesInCountryById/{countryId}")
 	@ResponseBody
-	public List<CityDTO> getCitiesInCountryById(@PathVariable int countryId){return countryService.getCitiesInCountryById(countryId);}
+	public List<City> getCitiesInCountryById(@PathVariable int countryId){return countryService.getCitiesInCountryById(countryId);}
 	@PostMapping("/AddCountry")
 	public ResponseEntity<CountryDTO> addCountry(@RequestBody AddCountryRequest addCountryRequest,CountryDTO countryDTO) {CountryDTO addedCountry=countryService.addCountry(addCountryRequest,countryDTO);return ResponseEntity.ok(addedCountry);}
 	@PostMapping("/AddCitiesToCountryById/{countryId}")
-	public ResponseEntity<CityDTO> addCityToCountryById(@PathVariable int countryId,CityDTO cityDTO,@RequestBody AddCityToCountryRequest addCityToCountryRequest){CityDTO addedCity=countryService.addCityToCountryById(countryId,cityDTO,addCityToCountryRequest);return ResponseEntity.ok(addedCity);}
+	public ResponseEntity<CityDTO> addCityToCountryById(@PathVariable int countryId,@RequestBody AddCityToCountryRequest addCityToCountryRequest){CityDTO addedCity=countryService.addCityToCountryById(countryId,addCityToCountryRequest);return ResponseEntity.ok(addedCity);}
 	@PostMapping("/AddCitiesToCountryByName/{countryName}")
-	public ResponseEntity<CityDTO> addCityToCountryByName(@PathVariable String countryName,CityDTO cityDTO,@RequestBody AddCityToCountryRequest addCityToCountryRequest){CityDTO addedCity=countryService.addCityToCountryByName(countryName,cityDTO,addCityToCountryRequest);return ResponseEntity.ok(addedCity);}
+	public ResponseEntity<CityDTO> addCityToCountryByName(@PathVariable String countryName,@RequestBody AddCityToCountryRequest addCityToCountryRequest){CityDTO addedCity=countryService.addCityToCountryByName(countryName,addCityToCountryRequest);return ResponseEntity.ok(addedCity);}
 	@PutMapping("/UpdateCountryByName/{countryName}")
 	@ResponseBody
 	public void updateCountryByName(@PathVariable String countryName, @RequestBody CountryUpdateRequest updateRequest, CountryDTO countryDTO){countryService.updateCountryByName(countryName, updateRequest,countryDTO);}
 	@PutMapping("/updateCountryById/{countryId}")
 	public void updateCountryById(@PathVariable int countryId,@RequestBody CountryUpdateRequest updateRequest,CountryDTO countryDTO){countryService.updateCountryById(countryId,updateRequest,countryDTO);}
     @PutMapping("/UpdateCitiesInCountryById/{countryId}/city/{cityName}")
-	public CityDTO updateCitiesInCountryById(@PathVariable int countryId, @PathVariable String cityName, @RequestBody UpdateCityInCountryRequest updateCityInCountryRequest, CityDTO cityDTO) {return countryService.updateCitiesInCountryById(countryId,cityName,updateCityInCountryRequest,cityDTO);}
+	public void updateCitiesInCountryById(@PathVariable int countryId, @PathVariable String cityName, @RequestBody UpdateCityInCountryRequest updateCityInCountryRequest) {countryService.updateCitiesInCountryById(countryId,cityName,updateCityInCountryRequest);}
 	@PutMapping("/UpdateCitiesInCountryByName/{countryName}/city/{cityName}")
-	public CityDTO updateCitiesInCountryByName (@PathVariable String countryName, @RequestBody UpdateCityInCountryRequest updateCityInCountryRequest, CityDTO cityDTO, @PathVariable String cityName){return countryService.updateCitiesInCountryByName(countryName, updateCityInCountryRequest, cityDTO, cityName);}
+	public void updateCitiesInCountryByName (@PathVariable String countryName,@PathVariable String cityName, @RequestBody UpdateCityInCountryRequest updateCityInCountryRequest){countryService.updateCitiesInCountryByName(countryName,cityName,updateCityInCountryRequest);}
     @DeleteMapping("/DeleteCountryById")
 	public void deleteCountryById(@RequestBody DeleteCountryByIdRequest deleteCountryByIdRequest){countryService.deleteCountryById(deleteCountryByIdRequest);}
 	@DeleteMapping("/DeleteCountryByName")

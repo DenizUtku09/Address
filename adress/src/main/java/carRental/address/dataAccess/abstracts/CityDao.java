@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CityDao extends JpaRepository<City, Integer>{
 	City findCityByCityId(int cityId);
-	Optional<City> findCitiesByCountryCountryId (int countryId);
+	List<City> findCitiesByCountryCountryId (int countryId);
 	Optional<City> findCityByCityIdOrCityName(int cityId, String cityName);
 	City findCityByCityName(String cityName);
 	Optional<City> findByCityName(String cityName);
