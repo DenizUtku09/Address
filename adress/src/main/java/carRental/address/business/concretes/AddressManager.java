@@ -1,60 +1,44 @@
 package carRental.address.business.concretes;
-
-import java.util.List;
-import java.util.Optional;
-
+import carRental.address.dataAccess.abstracts.*;
+import carRental.address.entities.concretes.*;
+import carRental.address.entities.concretes.dtos.requests.address.AddAddressRequest;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import carRental.address.business.abstracts.AddressService;
-import carRental.address.dataAccess.abstracts.AddressDao;
-import carRental.address.entities.concretes.Address;
+
 @Service
 public class AddressManager implements AddressService {
 	private final AddressDao addressDao;
+	private final StreetDao streetDao;
+	private final CountryDao countryDao;
+	private final BuildingNumberDao buildingNumberDao;
+	private final CityDao cityDao;
+
 	@Autowired
-	
-	public AddressManager (AddressDao addressDao) {
+	public AddressManager (AddressDao addressDao, StreetDao streetDao, CountryDao countryDao, CityDao cityDao,BuildingNumberDao buildingNumberDao) {
 		super();
 		this.addressDao=addressDao;
+		this.buildingNumberDao=buildingNumberDao;
+		this.countryDao=countryDao;
+		this.streetDao=streetDao;
+		this.cityDao=cityDao;
 	}
 	@Override
-	public Address addAddress(Address address) {
-		// TODO Auto-generated method stub
-		return addressDao.save(address);
+	public Address addAddress(AddAddressRequest addAddressRequest) {
+		Address newAddress=new Address();
+		Country existingCountry=countryDao.findByCountryName(addAddressRequest.countryName());
+		if(existingCountry!=null){newAddress.setCountry(existingCountry);}
+		City existingCity=cityDao.findCityByCityName(addAddressRequest.cityName());
+		if(existingCity!=null){newAddress.setCity(existingCity);}
+		Street existingStreet=streetDao.findByStreetName(addAddressRequest.streetName());
+		if(existingStreet!=null){newAddress.setStreet(existingStreet);}
+		BuildingNumber existingBuildingNumber=buildingNumberDao.findByBuildingNo(addAddressRequest.buildingNo());
+		if(existingBuildingNumber!=null){newAddress.setBuildingNumber(existingBuildingNumber);}
+		return addressDao.save(newAddress);
 	}
 	@Override
-	public Address updateAddress(Address address) {
-		Optional<Address> existingJob=addressDao.findById(address.getAddressId());
-		
-		if(existingJob.isPresent()) {
-			Address updatedJob=addressDao.save(address);
-			return updatedJob;
-		}
-		else {
-			throw new RuntimeException("This address is not found.");
-		}
-		
-	}
-
-	@Override
-	public List<Address> getAll() {
-		// TODO Auto-generated method stub
-		return addressDao.findAll();
-	}
-	@Override
-	public void deleteAddressById(int id) {
-		
-		addressDao.deleteById(id);
-		
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public Optional<Address> findById(int id) {
-		// TODO Auto-generated method stub
-		return addressDao.findById(id);
-		
-	}
-
-}
+	public Address getAddressById(int addressId) {
+		Address existingAddress=addressDao.findAddressByAddressId(addressId);
+		if(existingAddress==null){throw new EntityNotFoundException("This address does not exist.");}
+		else{return existingAddress;}}}

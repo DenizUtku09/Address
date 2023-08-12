@@ -10,9 +10,7 @@ import carRental.address.entities.concretes.dtos.requests.buildingnumber.AddBuil
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-
 @Service
 public class BuildingNumberManager implements BuildingNumberService {
     private final BuildingNumberDao buildingNumberDao;
@@ -25,19 +23,20 @@ public class BuildingNumberManager implements BuildingNumberService {
     }
 
     @Override
-    public BuildingNumberDTO addBuildingNumber(String streetName, AddBuildingNumberRequest addBuildingNumberRequest) {
-        Street existingStreet=streetDao.findByStreetName(streetName);
+    public BuildingNumber addBuildingNumber(String streetName, AddBuildingNumberRequest addBuildingNumberRequest) {
+        Street existingStreet=streetDao.findStreetByStreetName(streetName);
         if(existingStreet==null){throw new EntityNotFoundException("This street is not found.");}
         else{
             BuildingNumber addedBuildingNumber=new BuildingNumber();
-            addedBuildingNumber.setBuildingNo(addedBuildingNumber.getBuildingNo());
+            addedBuildingNumber.setBuildingNo(addBuildingNumberRequest.buildingNo());
             addedBuildingNumber.setStreet(existingStreet);
             buildingNumberDao.save(addedBuildingNumber);
+
             BuildingNumberDTO addedBuildingNumberDTO=new BuildingNumberDTO();
             addedBuildingNumberDTO.setBuildingNo(addedBuildingNumber.getBuildingNo());
             addedBuildingNumberDTO.setBuildingNumberId(addedBuildingNumber.getBuildingNumberId());
             addedBuildingNumber.setStreet(existingStreet);
-            return addedBuildingNumberDTO;}}
+            return  buildingNumberDao.save(addedBuildingNumber);}}
 
     @Override
     public void updateBuildingNumberByNo(int buildingNo, AddBuildingNumberRequest addBuildingNumberRequest) {

@@ -20,7 +20,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,12 +109,12 @@ public class CityManager implements CityService {
     @Override
     public StreetDTO addStreetToCityById(int cityId,AddStreetRequest addStreetRequest) {
         City existingCity = cityDao.findCityByCityId(cityId);
-        Optional<Street> existingStreet = streetDao.findStreetByStreetName(addStreetRequest.streetName());
+        Street existingStreet = streetDao.findStreetByStreetName(addStreetRequest.streetName());
 
         if(existingCity==null){
             throw new RuntimeException("This city is not found by id");
         }
-        if(existingStreet.isPresent()){
+        if(existingStreet!=null){
             throw new RuntimeException("This street name is same as before.");
         }
 
@@ -135,12 +134,12 @@ public class CityManager implements CityService {
     @Override
     public StreetDTO addStreetToCityByName(String cityName,AddStreetRequest addStreetRequest){
         City existingCity = cityDao.findCityByCityName(cityName);
-        Optional<Street> existingStreet = streetDao.findStreetByStreetName(addStreetRequest.streetName());
+        Street existingStreet = streetDao.findStreetByStreetName(addStreetRequest.streetName());
 
         if(existingCity==null){
             throw new RuntimeException("This city is not found by name");
         }
-        if(existingStreet.isPresent()){
+        if(existingStreet!=null){
             throw new RuntimeException("This street name is same as before.");
         }
 
@@ -156,15 +155,15 @@ public class CityManager implements CityService {
     }
     public StreetDTO updateStreetInCityByName(String cityName,String streetName,AddStreetRequest addStreetRequest){
         City existingCity = cityDao.findCityByCityName(cityName);
-        Optional<Street> existingStreet = streetDao.findStreetByStreetName(addStreetRequest.streetName());
+        Street existingStreet = streetDao.findStreetByStreetName(addStreetRequest.streetName());
         if(existingCity==null){
             throw new RuntimeException("This city is not found by id");
         }
-        if(existingStreet.isPresent()){
+        if(existingStreet!=null){
 
             Street addedStreet=new Street();
             addedStreet.setStreetName(addStreetRequest.streetName());
-            if(existingStreet.get().equals(addedStreet)){
+            if(existingStreet.equals(addedStreet)){
                 throw new IllegalStateException("The street name is same as before.");
             }
             addedStreet.setCity(existingCity);

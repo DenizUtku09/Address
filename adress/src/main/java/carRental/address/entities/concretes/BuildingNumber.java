@@ -1,27 +1,24 @@
 package carRental.address.entities.concretes;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.extern.jackson.Jacksonized;
-
+import lombok.*;
 @Data
 @Entity
 @Table(name="building_no")
-@Builder
-@Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuildingNumber {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
+	@JsonProperty("id")
 	private int buildingNumberId;
 	@Column(name="no")
+	@JsonProperty("building_number")
+
 	private int buildingNo;
-    @ManyToOne()
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "street_id")
     private Street street;
 }

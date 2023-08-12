@@ -28,27 +28,27 @@ public class StreetController {
         this.streetService=streetService;
     }
     @PostMapping("/AddStreet/{cityName}")
-    public ResponseEntity<StreetDTO> AddStreet(@PathVariable String cityName, AddStreetRequest addStreetRequest){return ResponseEntity.ok(streetService.addStreet(cityName,addStreetRequest));}
+    public ResponseEntity<StreetDTO> AddStreet(@PathVariable String cityName,@RequestBody AddStreetRequest addStreetRequest){return ResponseEntity.ok(streetService.addStreet(cityName,addStreetRequest));}
     @PutMapping("/UpdateStreetByName/{streetName}")
-    public void updateStreetByName(@PathVariable String streetName, AddStreetRequest addStreetRequest){streetService.updateStreetByName(streetName,addStreetRequest);}
+    public void updateStreetByName(@PathVariable String streetName, @RequestBody AddStreetRequest addStreetRequest){streetService.updateStreetByName(streetName,addStreetRequest);}
     @PutMapping("/UpdateStreetById/{streetId}")
-    public void updateStreetById(@PathVariable int streetId,AddStreetRequest addStreetRequest){streetService.updateStreetById(streetId,addStreetRequest);}
+    public void updateStreetById(@PathVariable int streetId,@RequestBody AddStreetRequest addStreetRequest){streetService.updateStreetById(streetId,addStreetRequest);}
     @DeleteMapping("/DeleteStreetById")
-    public void deleteStreetById(DeleteStreetByIdRequest deleteStreetByIdRequest){streetService.deleteStreetById(deleteStreetByIdRequest);}
+    public void deleteStreetById(@RequestBody DeleteStreetByIdRequest deleteStreetByIdRequest){streetService.deleteStreetById(deleteStreetByIdRequest);}
     @DeleteMapping("/DeleteStreetByName")
-    public void deleteStreetByName(DeleteStreetByNameRequest deleteStreetByNameRequest){streetService.deleteStreetByName(deleteStreetByNameRequest);}
+    public void deleteStreetByName(@RequestBody DeleteStreetByNameRequest deleteStreetByNameRequest){streetService.deleteStreetByName(deleteStreetByNameRequest);}
     @PostMapping("/AddBuildingNumberToStreetByName/{streetName}")
-    public ResponseEntity<BuildingNumberDTO> addBuildingNumberToStreetByName(@PathVariable String streetName, AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.addBuildingNumberToStreetByName(streetName,addBuildingNumberRequest));}
+    public ResponseEntity<BuildingNumberDTO> addBuildingNumberToStreetByName(@PathVariable String streetName, @RequestBody AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.addBuildingNumberToStreetByName(streetName,addBuildingNumberRequest));}
     @PostMapping("/AddBuildingNumberToStreetById/{streetId}")
-    public ResponseEntity<BuildingNumberDTO> addBuildingNumberToStreetById(@PathVariable int streetId,AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.addBuildingNumberToStreetById(streetId,addBuildingNumberRequest));}
+    public ResponseEntity<BuildingNumberDTO> addBuildingNumberToStreetById(@PathVariable int streetId,@RequestBody AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.addBuildingNumberToStreetById(streetId,addBuildingNumberRequest));}
     @PutMapping("/UpdateBuildingNumberInStreetByName/{streetName}/building-number/{buildingNo}")
-    public ResponseEntity<BuildingNumberDTO> updateBuildingNumberInStreetByName(@PathVariable String streetName,@PathVariable int buildingNo,AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.updateBuildingNumberInStreetByName(streetName,buildingNo,addBuildingNumberRequest));}
+    public ResponseEntity<BuildingNumberDTO> updateBuildingNumberInStreetByName(@PathVariable String streetName,@PathVariable int buildingNo,@RequestBody AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.updateBuildingNumberInStreetByName(streetName,buildingNo,addBuildingNumberRequest));}
     @PutMapping("/UpdateBuildingNumberInStreetById/{streetId}/building-number/{buildingNumberId}")
-    public ResponseEntity<BuildingNumberDTO> updateBuildingNumberInStreetByName(@PathVariable int streetId,@PathVariable int buildingNumberId,AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.updateBuildingNumberInStreetById(streetId,buildingNumberId,addBuildingNumberRequest));}
+    public ResponseEntity<BuildingNumberDTO> updateBuildingNumberInStreetByName(@PathVariable int streetId,@PathVariable int buildingNumberId,@RequestBody AddBuildingNumberRequest addBuildingNumberRequest){return ResponseEntity.ok(streetService.updateBuildingNumberInStreetById(streetId,buildingNumberId,addBuildingNumberRequest));}
     @DeleteMapping("/DeleteBuildingNumberInStreetByName/{streetName}")
-    public void deleteBuildingNumberInStreetByName(@PathVariable String streetName, DeleteBuildingNumberByNameRequest deleteBuildingNumberByNameRequest){streetService.deleteBuildingNumberInStreetByName(streetName,deleteBuildingNumberByNameRequest);}
+    public void deleteBuildingNumberInStreetByName(@PathVariable String streetName, @RequestBody DeleteBuildingNumberByNameRequest deleteBuildingNumberByNameRequest){streetService.deleteBuildingNumberInStreetByName(streetName,deleteBuildingNumberByNameRequest);}
     @DeleteMapping("/DeleteBuildingNumberInStreetById/{streetId}")
-    public void deleteBuildingNumberInStreetById(@PathVariable int streetId, DeleteBuildingNumberByIdRequest deleteBuildingNumberByIdRequest){streetService.deleteBuildingNumberInStreetById(streetId,deleteBuildingNumberByIdRequest);}
+    public void deleteBuildingNumberInStreetById(@PathVariable int streetId,@RequestBody DeleteBuildingNumberByIdRequest deleteBuildingNumberByIdRequest){streetService.deleteBuildingNumberInStreetById(streetId,deleteBuildingNumberByIdRequest);}
     @GetMapping("/GetAllStreets")
     public List<StreetDTO> getAllStreets(){return streetService.getAllStreets();}
     @GetMapping("/GetStreetByName/{streetName}")
