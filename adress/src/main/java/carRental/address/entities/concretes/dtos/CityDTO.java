@@ -13,6 +13,9 @@ import java.util.List;
 public class CityDTO {
     private String cityName;
     private int cityId;
-    private Country country;
     private List<String> streets;
+
+
+    public <R> CityDTO(String cityName, int cityId, R collect) {
+    }
 }

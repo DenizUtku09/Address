@@ -14,7 +14,6 @@ public class CityDTOMapper implements Function<City, CityDTO> {
         return new CityDTO(
                 city.getCityName(),
                 city.getCityId(),
-                city.getCountry(),
                 city.getStreets()
                         .stream()
                         .map(Street::getStreetName)

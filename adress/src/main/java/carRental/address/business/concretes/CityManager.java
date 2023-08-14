@@ -53,7 +53,7 @@ public class CityManager implements CityService {
             CityDTO addedCityDTO = new CityDTO();
             addedCityDTO.setCityName(addedCity.getCityName());
             addedCityDTO.setCityId(addedCity.getCityId());
-            addedCityDTO.setCountry(addedCity.getCountry());
+            //addedCityDTO.setCountry(addedCity.getCountry());
 
         }
         return null;
@@ -155,49 +155,36 @@ public class CityManager implements CityService {
     }
     public StreetDTO updateStreetInCityByName(String cityName,String streetName,AddStreetRequest addStreetRequest){
         City existingCity = cityDao.findCityByCityName(cityName);
-        Street existingStreet = streetDao.findStreetByStreetName(addStreetRequest.streetName());
+        Street existingStreet = streetDao.findStreetByStreetName(streetName);
         if(existingCity==null){
-            throw new RuntimeException("This city is not found by id");
+            throw new RuntimeException("This city is not found by name.");
         }
         if(existingStreet!=null){
-
-            Street addedStreet=new Street();
-            addedStreet.setStreetName(addStreetRequest.streetName());
-            if(existingStreet.equals(addedStreet)){
-                throw new IllegalStateException("The street name is same as before.");
-            }
-            addedStreet.setCity(existingCity);
-            streetDao.save(addedStreet);
-
-            StreetDTO addedStreetDTO=new StreetDTO();
-            addedStreetDTO.setStreetId(addedStreet.getStreetId());
-            addedStreetDTO.setStreetName(addedStreet.getStreetName());
-            addedStreetDTO.setCity(addedStreet.getCity());
-            return addedStreetDTO;
+            if(existingStreet.getStreetName().equals(addStreetRequest.streetName())){throw new IllegalStateException("The street name is same as before.");}
+            else{existingStreet.setStreetName(addStreetRequest.streetName());
+                streetDao.save(existingStreet);
+            }}
+        if(existingStreet==null){
+            throw new RuntimeException("This street is not found by name.");
         }
         return null;}
 
+
     public StreetDTO updateStreetInCityById(int cityId,int streetId,AddStreetRequest addStreetRequest){
         City existingCity = cityDao.findCityByCityId(cityId);
-        Street existingStreet = streetDao.findByStreetName(addStreetRequest.streetName());
+        Street existingStreet = streetDao.findByStreetId(streetId);
         if(existingCity==null){
-            throw new RuntimeException("This city is not found by id");
+            throw new RuntimeException("This city is not found by ID.");
         }
         if(existingStreet!=null){
-            if(addStreetRequest.streetName().equals(existingStreet.getStreetName()))
-            {
-                throw new RuntimeException("This street name is same as before.");
-            }
-            existingStreet.setStreetName(addStreetRequest.streetName());
-
-            StreetDTO addedStreetDTO=new StreetDTO();
-            addedStreetDTO.setStreetId(existingStreet.getStreetId());
-            addedStreetDTO.setStreetName(existingStreet.getStreetName());
-            addedStreetDTO.setCity(existingStreet.getCity());
-            return addedStreetDTO;
+            if(existingStreet.getStreetName().equals(addStreetRequest.streetName())){throw new IllegalStateException("The street name is same as before.");}
+            else{existingStreet.setStreetName(addStreetRequest.streetName());
+                streetDao.save(existingStreet);
+            }}
+        if(existingStreet==null){
+            throw new RuntimeException("This street is not found by ID.");
         }
-        return null;
-    }
+        return null;}
     public void deleteStreetInCityByName(String cityName, DeleteStreetByNameRequest deleteStreetByNameRequest){
         City existingCity=cityDao.findCityByCityName(cityName);
         Street existingStreet=streetDao.findByStreetName(deleteStreetByNameRequest.streetName());

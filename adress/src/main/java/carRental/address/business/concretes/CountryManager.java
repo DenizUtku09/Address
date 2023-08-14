@@ -138,7 +138,7 @@ public class CountryManager implements CountryService {
 
 		CityDTO addedCityDTO = new CityDTO();
 		addedCityDTO.setCityName(city.getCityName());
-		addedCityDTO.setCountry(country);
+		//addedCityDTO.setCountry(country);
 
 		return addedCityDTO;
 
@@ -158,7 +158,7 @@ public class CountryManager implements CountryService {
 
 		CityDTO addedCityDTO = new CityDTO();
 		addedCityDTO.setCityName(city.getCityName());
-		addedCityDTO.setCountry(country);
+		//addedCityDTO.setCountry(country);
 
 		return addedCityDTO;
 
@@ -180,7 +180,7 @@ public class CountryManager implements CountryService {
 		cityDao.save(cityToUpdate);
 		CityDTO updatedCityDTO = new CityDTO();
 		updatedCityDTO.setCityName(cityToUpdate.getCityName());
-		updatedCityDTO.setCountry(country);
+		//updatedCityDTO.setCountry(country);
 
 
 
@@ -202,7 +202,7 @@ public class CountryManager implements CountryService {
 		cityDao.save(cityToUpdate);
 		CityDTO updatedCityDTO = new CityDTO();
 		updatedCityDTO.setCityName(cityToUpdate.getCityName());
-		updatedCityDTO.setCountry(country);
+		//updatedCityDTO.setCountry(country);
 
 
 
