@@ -42,9 +42,11 @@ public class StreetManager implements StreetService {
 
     @Override
     public StreetDTO addStreet(String cityName, AddStreetRequest addStreetRequest) {
-        City existingCity=cityDao.findByCityName(cityName)
-                .orElseThrow(()-> new EntityNotFoundException("This city does not exist."));
+        City existingCity=cityDao.findByCityName(cityName);
         boolean existingStreet=streetDao.existsByStreetName(addStreetRequest.streetName());
+        if(!cityDao.existsByCityName(cityName)){
+            throw new RuntimeException("This city does not exist.");
+        }
         if(!existingStreet){
             Street addedStreet=new Street();
             addedStreet.setStreetName(addStreetRequest.streetName());
