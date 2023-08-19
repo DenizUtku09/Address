@@ -38,6 +38,8 @@ public class City {
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "city_id")
     private List<Street> streets=new ArrayList<>();
+
+    @JsonManagedReference
     @OneToMany
     @JoinColumn(name = "city_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)

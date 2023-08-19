@@ -94,12 +94,14 @@ public class StreetManager implements StreetService {
         }}
     @Override
     public void deleteStreetByName(DeleteStreetByNameRequest deleteStreetByNameRequest) {
-        if(streetDao.existsByStreetName(deleteStreetByNameRequest.streetName())){
-            streetDao.deleteByStreetName(deleteStreetByNameRequest.streetName());
+        Street existingStreet=streetDao.findStreetByStreetName(deleteStreetByNameRequest.streetName());
+        if(existingStreet!=null){
+            streetDao.delete(existingStreet);
         }
         else{
-            throw new RuntimeException("This street does not exist by name.");
-        }}
+            throw new RuntimeException("This street does not exist by ID.");
+        }
+      }
     @Override
     public void deleteStreetById(DeleteStreetByIdRequest deleteStreetByIdRequest) {
         Street existingStreet=streetDao.findStreetByStreetId(deleteStreetByIdRequest.streetId());

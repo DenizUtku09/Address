@@ -33,6 +33,7 @@ public class Country {
     @OneToMany(orphanRemoval = true)
 	@JoinColumn(name="country_id")
     private List<City> cities=new ArrayList<>();
+	@JsonManagedReference
 	@OneToMany()
 	@JoinColumn(name="country_id")
 	@OnDelete(action = OnDeleteAction.SET_NULL)
