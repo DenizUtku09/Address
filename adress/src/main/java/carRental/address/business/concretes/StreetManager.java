@@ -68,30 +68,14 @@ public class StreetManager implements StreetService {
             throw new RuntimeException("This street name is same as before.");
         }
 
-        else{
-            existingStreet.setStreetName(addStreetRequest.streetName());
-
-            StreetDTO updatedStreetDTO=new StreetDTO();
-            updatedStreetDTO.setCity(existingStreet.getCity());
-            updatedStreetDTO.setStreetId(existingStreet.getStreetId());
-            updatedStreetDTO.setStreetName(existingStreet.getStreetName());
-
-        }}
+        else{existingStreet.setStreetName(addStreetRequest.streetName());}}
     @Override
     public void updateStreetById(int streetId, AddStreetRequest addStreetRequest) {
         Street existingStreet=streetDao.findByStreetId(streetId);
         if(addStreetRequest.streetName().equals(existingStreet.getStreetName())){
             throw new RuntimeException("This street name is same as before.");
         }
-        else{
-            existingStreet.setStreetName(addStreetRequest.streetName());
-
-            StreetDTO updatedStreetDTO=new StreetDTO();
-            updatedStreetDTO.setCity(existingStreet.getCity());
-            updatedStreetDTO.setStreetId(existingStreet.getStreetId());
-            updatedStreetDTO.setStreetName(existingStreet.getStreetName());
-
-        }}
+        else{existingStreet.setStreetName(addStreetRequest.streetName());}}
     @Override
     public void deleteStreetByName(DeleteStreetByNameRequest deleteStreetByNameRequest) {
         Street existingStreet=streetDao.findStreetByStreetName(deleteStreetByNameRequest.streetName());
