@@ -61,23 +61,10 @@ public class CityManager implements CityService {
     @Override
     public void updateCityByName(String cityName, UpdateCityRequest updateCityRequest) {
         City existingCity=cityDao.findCityByCityName(cityName);
-        if(){
-            existingCity.setCityName(updateCityRequest.cityName());
-            cityDao.save(existingCity);
-
-            CityDTO updatedCityDTO= new CityDTO();
-            updatedCityDTO.setCityId(existingCity.getCityId());
-            updatedCityDTO.setCityName(existingCity.getCityName());}
-        else{
-            throw new RuntimeException("This city does not exist.");
+        if(existingCity.getCityName().isEmpty()){throw new RuntimeException("This city does not exist.");}
+        existingCity.setCityName(updateCityRequest.cityName());
+        cityDao.save(existingCity);
         }
-
-
-
-
-
-        }
-
     @Override
     public void updateCityById(int cityId,UpdateCityRequest updateCityRequest){
         City existingCity=cityDao.findCityByCityId(cityId);
@@ -86,10 +73,6 @@ public class CityManager implements CityService {
         }
         existingCity.setCityName(updateCityRequest.cityName());
         cityDao.save(existingCity);
-
-        CityDTO updatedCityDTO= new CityDTO();
-        updatedCityDTO.setCityId(existingCity.getCityId());
-        updatedCityDTO.setCityName(existingCity.getCityName());
     }
 
 

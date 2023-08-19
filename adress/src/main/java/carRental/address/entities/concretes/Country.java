@@ -29,11 +29,14 @@ public class Country {
 	@Column(name="name")
 	@JsonProperty("countryName")
 	private String countryName;
-	
-
 	@JsonManagedReference
-    @OneToMany(mappedBy = "country",cascade = CascadeType.ALL,orphanRemoval = true)
-	@OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OneToMany(orphanRemoval = true)
+	@JoinColumn(name="country_id")
     private List<City> cities=new ArrayList<>();
+	@OneToMany()
+	@JoinColumn(name="country_id")
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+	private List<Address> addresses;
+
 
 }

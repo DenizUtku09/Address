@@ -102,8 +102,9 @@ public class StreetManager implements StreetService {
         }}
     @Override
     public void deleteStreetById(DeleteStreetByIdRequest deleteStreetByIdRequest) {
-        if(streetDao.existsByStreetId(deleteStreetByIdRequest.streetId())){
-            streetDao.deleteByStreetId(deleteStreetByIdRequest.streetId());
+        Street existingStreet=streetDao.findStreetByStreetId(deleteStreetByIdRequest.streetId());
+        if(existingStreet!=null){
+            streetDao.delete(existingStreet);
         }
         else{
             throw new RuntimeException("This street does not exist by ID.");

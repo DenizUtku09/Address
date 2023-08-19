@@ -1,6 +1,7 @@
 package carRental.address.api.controllers;
 import carRental.address.business.abstracts.AddressService;
 import carRental.address.entities.concretes.dtos.requests.address.AddAddressRequest;
+import carRental.address.entities.concretes.dtos.requests.address.DeleteAddressByIdRequest;
 import org.springframework.web.bind.annotation.*;
 import carRental.address.entities.concretes.Address;
 @RestController
@@ -18,6 +19,9 @@ public class AddressController {
     }
     @GetMapping("/GetAddressById/{addressId}")
     public Address getAddressById(@PathVariable int addressId){return addressService.getAddressById(addressId);}
+
+    @DeleteMapping("/DeleteAddress")
+    public void deleteAddress(DeleteAddressByIdRequest deleteAddressByIdRequest){addressService.deleteAddress(deleteAddressByIdRequest);}
 
 
 	

@@ -4,6 +4,7 @@ package carRental.address.entities.concretes;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,10 +36,14 @@ public class Street {
 	@JsonBackReference
 	@ManyToOne()
 	@JoinColumn(name = "city_id")
-	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private City city;
-
-
-	@OneToMany
+	@JsonManagedReference
+	@OneToMany(orphanRemoval = true)
+	@JoinColumn(name="street_id")
     private List<BuildingNumber> buildingNumbers;
+	@JsonManagedReference
+	@OneToMany()
+	@JoinColumn(name="street_id")
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+	private List<Address> addresses;
 }
