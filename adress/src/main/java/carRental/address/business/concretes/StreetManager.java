@@ -83,7 +83,7 @@ public class StreetManager implements StreetService {
             streetDao.delete(existingStreet);
         }
         else{
-            throw new RuntimeException("This street does not exist by ID.");
+            throw new RuntimeException("This street does not exist by name.");
         }
       }
     @Override
